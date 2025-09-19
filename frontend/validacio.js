@@ -11,4 +11,12 @@ document.getElementById("formContacte").addEventListener("submit", function(even
     alert("El correu ha de contindre un '@'.");
     event.preventDefault();
   }
+
+  const telefon = document.getElementById("telefon").value;
+const regexTelefon = /^[0-9]{9}$/;
+
+if (!regexTelefon.test(telefon)) {
+  alert("El telèfon ha de tindre exactament 9 dígits numèrics.");
+  event.preventDefault();
+}
 });
