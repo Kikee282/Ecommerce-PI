@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Per L’Art</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="top-deco"></div>
+    <nav class="navbar">
+      <ul>
+        <div class="logoHeader">
+          <img src="./contenido/logoParteArriba.png" alt="Logo Per L’Art">
+        </div>   
+        <li>Productes</li>
+        <li>Sobre nosaltres</li>
+        <li>Contacte</li>
+      </ul>
+    </nav>
+    <div class="logoInicio">
+      <img src="./contenido/logo.png" alt="Logo Per L’Art">
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <section class="intro">
+      <p>Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero, viverra ridiculus eget blandit mattis consequat convallis imperdiet diam.Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero.Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero.Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero.Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero.</p>
+    </section>
+
+    <section class="showcase" id="productes">
+      <div class="producte">
+        <img src="./contenido/image_anell.png" alt="Anell elegant">
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero.Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero.Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero.Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero.</p>
+      </div>
+
+      <div class="producte">
+        <img src="./contenido/image.png" alt="Collaret artístic">
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero.Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero.Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero.Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit vestibulum et libero.</p>
+      </div>
+    </section>
+
+    <div class="button-center">
+      <button class="btn">Productes destacats</button>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top" id="contacte">
+      <form id="contactForm" method="POST" action="./process_form.php">
+        <h3>Contacta amb nosaltres</h3>
+        <label for="name">Nom *</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Correu electrònic *</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="message">Missatge *</label>
+        <textarea id="message" name="message" required></textarea>
+
+        
+
+        <button type="submit" class="btn">Enviar</button>
+      </form>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-section">
+        <p>Informació legal</p>
+        <p>Política de devolucions</p>
+        <p>Política de cookies</p>
+      </div>
+      <div class="footer-section">
+        <p>Telèfon de contacte: <br> 623456977</p>
+        <p>Segueix-nos:</p>
+      </div>
+      <div class="footer-section">
+        <p>correul@perart.com</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
