@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    container_name: per-lart-web
+    ports:
+      - "443:443"
+    volumes:
+      - ./src:/var/www/html
+      - ./certs/server.crt:/etc/ssl/certs/server.crt
+      - ./certs/server.key:/etc/ssl/private/server.key
+    restart: always

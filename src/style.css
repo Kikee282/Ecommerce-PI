@@ -1,0 +1,240 @@
+body {
+  font-family: 'Georgia', serif;
+  background-color: #f3f1ef;
+  margin: 0;
+  color: #222;
+  line-height: 1.5;
+}
+
+header {
+  text-align: center;
+  padding-top: 10px;
+}
+
+/* Menú de navegación */
+.navbar {
+  display: flex;
+  justify-content: center;
+  background: #dfdfdf;
+  border-radius: 40px;
+  width: 90%;
+  margin: 10px auto;
+  padding: 10px 0;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 50px;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+/* Logo decorativo de cabecera */
+.logoHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  max-width: 30%;
+  width: 10px;
+  margin: 0 auto 5px;
+  text-align: left;
+}
+
+.logoHeader img {
+  height: 30px;
+  object-fit: contain;
+}
+
+.logoInicio {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f6f4f3;
+  width: 100%;
+  margin: 0 auto 10px;
+  padding: 20px 0;
+}
+
+.logoInicio img {
+  height: 490px;
+  object-fit: contain;
+}
+
+.intro {
+  width: 70%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 10px 0 30px;
+  font-size: 1rem;
+}
+
+/* --- NUEVO ESTILO PARA LA SECCIÓN DE PRODUCTES --- */
+.showcase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+  gap: 60px;
+}
+
+/* Cada producto en una fila con texto e imagen */
+.producte {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  width: 100%;
+}
+
+/* Texto del producto */
+.producte p {
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* Imagen del producto */
+.producte img {
+  flex: 1;
+  width: 100%;
+  max-width: 350px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  object-fit: cover;
+}
+
+/* Alternar posición de las filas (pares e impares) */
+.producte:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+/* --- FIN NUEVO BLOQUE --- */
+
+.button-center {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.btn {
+  background-color: #d8d6d4;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #c2bdbb;
+}
+
+footer {
+  background-color: #243020;
+  color: #fff;
+  padding: 40px 20px 20px;
+  margin-top: 60px;
+}
+
+footer form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 80%;
+  max-width: 400px;
+  margin: 0 auto 40px;
+}
+
+footer form h3 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+footer input,
+footer textarea {
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-family: inherit;
+}
+
+footer textarea {
+  resize: vertical;
+}
+
+footer button {
+  align-self: center;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  font-size: 0.9em;
+  border-top: 1px solid #fff;
+  padding-top: 20px;
+  gap: 20px;
+}
+
+.footer-section {
+  text-align: center;
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .navbar {
+    width: 90%;
+    padding: 10px;
+  }
+
+  .navbar ul {
+    gap: 20px;
+  }
+
+  .logoHeader,
+  .logoInicio {
+    width: 90%;
+  }
+
+  .producte {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .producte:nth-child(even) {
+    flex-direction: column;
+  }
+
+  .producte img {
+    max-width: 280px;
+  }
+
+  .intro {
+    width: 90%;
+  }
+}
+
+/* Móviles */
+@media (max-width: 480px) {
+  .navbar ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .logoHeader img {
+    height: 50px;
+  }
+
+  .logoInicio img {
+    height: 90px;
+  }
+
+  .btn {
+    width: 80%;
+  }
+}
