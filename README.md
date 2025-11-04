@@ -6,4 +6,6 @@ Documentació:<br>
 <a href="">Planificació inicial</a><br>
 <a href="https://github.com/Kikee282/Ecommerce-PI/blob/main/Documentaci%C3%B3/Riscos%20laborals%20del%20projecte.pdf">Riscos laborals del projecte</a><br>
 
+Per a accedir a l'aplicacio executar en la terminal dins del projecte el comando docker-compose up -d i despres entrar al port 443.
+
 
