@@ -163,6 +163,10 @@ footer textarea {
   font-family: inherit;
 }
 
+.privacitat{
+  margin-right: 95%;
+}
+
 footer textarea {
   resize: vertical;
 }
