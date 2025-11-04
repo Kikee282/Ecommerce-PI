@@ -63,8 +63,15 @@
         <label for="message">Missatge *</label>
         <textarea id="message" name="message" required></textarea>
 
-        <label for="checkbox">Accepte la política de privacitat*</label>
-        <input type="checkbox" name="checkbox" class="privacitat" required>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <input type="checkbox" id="privacyPolicy" name="privacyPolicy" required>
+          <label for="privacyPolicy" style="margin: 0;">He llegit i accepte la política de privacitat *</label>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+          <input type="checkbox" id="skipValidation" name="skipValidation">
+          <label for="skipValidation" style="margin: 0;">Desactivar validació en client (per a proves)</label>
+        </div>
 
         <button type="submit" class="btn">Enviar</button>
       </form>
@@ -81,9 +88,25 @@
         <p>Segueix-nos:</p>
       </div>
       <div class="footer-section">
-        <p>correul@perart.com</p>
+        <p>correu@perlart.com</p>
       </div>
     </div>
   </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      const form = document.getElementById('contactForm');
+      const checkbox = document.getElementById('skipValidation');
+
+      
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+          form.setAttribute('novalidate', true);
+        } else {
+          form.removeAttribute('novalidate');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
