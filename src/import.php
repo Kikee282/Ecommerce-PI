@@ -53,11 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
             // Iterem per cada fila (ignorem la fila 1, que són les capçaleres)
             foreach (array_slice($data, 1) as $rowIndex => $row) {
                 // Suposem l'ordre de les columnes: A=SKU, B=Nom, C=Descripcio, D=Img, E=Preu, F=Estoc
-                $sku = trim($row['A']);
-                $nom = trim($row['B']);
-                $descripcio = trim($row['C']);
-                $img = trim($row['D']);
-                $preu = $row['E'];
+                $sku = trim($row['A'] ?? '');
+                $nom = trim($row['B'] ?? '');
+                $descripcio = trim($row['C'] ?? '');
+                $img = trim($row['D'] ?? '');
+                $preu = $row['E']; // Aquests ja els valida 'is_numeric'
                 $estoc = $row['F'];
 
                 // Validació simple
