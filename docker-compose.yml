@@ -8,4 +8,22 @@ services:
       - ./src:/var/www/html
       - ./certs/server.crt:/etc/ssl/certs/server.crt
       - ./certs/server.key:/etc/ssl/private/server.key
+      # LÍNIA CLAU A AFEGIR:
+      # Permet que PHP escrigui al directori 'data'
+      - ./data:/data
     restart: always
+    # Si fas servir xarxes, afegeix-ho (opcional però recomanat)
+    # networks:
+    #   - pi_network
+
+  # SERVEI NOU A AFEGIR (copiat dels teus requisits)
+  jsonserver:
+    image: node:20-alpine
+    container_name: jsonserver
+    working_dir: /app
+    command: sh -c "npm i -g json-server && json-server --watch /data/products.json --host 0.0.0.0 --port 3000"
+    volumes:
+      - ./data:/data
+    ports:
+      - "3000:3000"
+    restart: unless-stopped

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Importar Productes</title>
+    </head>
+<body>
+    <div style="width: 500px; margin: 50px auto; padding: 20px; border: 1px solid #ccc;">
+        <h2>Carregar Catàleg de Productes</h2>
+        <p>Puja el fitxer Excel (.xlsx) per a actualitzar la base de dades de productes.</p>
+
+        <form action="import.php" method="POST" enctype="multipart/form-data">
+            <div>
+                <label for="excel_file">Selecciona fitxer Excel:</label>
+                <input type="file" id="excel_file" name="excel_file" accept=".xlsx, .xls">
+            </div>
+            <br>
+            <button type="submit">Importar Productes</button>
+        </form>
+    </div>
+</body>
+</html>
