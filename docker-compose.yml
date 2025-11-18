@@ -3,7 +3,7 @@ services:
     build: .
     container_name: per-lart-web
     ports:
-      - "443:443"
+      - "8443:443"
     volumes:
       - ./src:/var/www/html
       - ./certs/server.crt:/etc/ssl/certs/server.crt

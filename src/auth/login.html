@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sessió</title>
+    <link rel="stylesheet" href="./styles/styleIndex.css">
+</head>
+<body>
+    <form id="loginForm" method="POST" action="login.php">
+        <h3>Inicia sessió</h3>
+        
+        <label>Nom d'usuari</label>
+        <input type="text" name="nom_usuari" required>
+
+        <label>Contrasenya</label>
+        <input type="password" name="password" required>
+
+        <button type="submit" class="btn">Entrar</button>
+    </form>
+    <p>No tens compte? <a href="registerForm.html">Registra't!</a></p>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Registre</title>
+    <link rel="stylesheet" href="./styles/styleIndex.css">
+</head>
+<body>
+    <form id="registerForm" method="POST" action="register.php">
+        <h3>Registra't</h3>
+        
+        <label>Nom d'usuari *</label>
+        <input type="text" name="nom_usuari" required>
+
+        <label>Nom *</label>
+        <input type="text" name="nom" required>
+
+        <label>Cognoms</label>
+        <input type="text" name="cognoms">
+
+        <label>Email *</label>
+        <input type="email" name="email" required>
+
+        <label>Contrasenya *</label>
+        <input type="password" name="password" required>
+
+        <button type="submit" class="btn">Registrar</button>
+    </form>
+</body>
+</html>
