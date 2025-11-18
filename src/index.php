@@ -1,9 +1,21 @@
+<?php
+// 1. Iniciem la sessió per a poder llegir les variables
+session_start();
+
+// 2. Comprovem si l'usuari està loguejat
+// Aquesta variable serà TRUE o FALSE. No redirigim a ningú.
+$isLoggedIn = isset($_SESSION['user_id']);
+
+// Si està loguejat, agafem el seu nom real (o el nom d'usuari)
+$nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Per L’Art</title>
+  <title>Per l'art</title>
   <link rel="stylesheet" href="./styles/styleIndex.css">
 </head>
 <body>
@@ -15,10 +27,20 @@
         <div class="logoHeader">
           <img src="./contenido/logoParteArriba.png" alt="Logo Per L’Art">
         </div>   
-        <li>Productes</li>
+        <li>productes</li>
         <li>Sobre nosaltres</li>
         <li>Contacte</li>
-        <li><a rel="stylesheet" href="./singUp.html">Sing up</a></li>
+        <?php if ($isLoggedIn): ?>
+    
+        <li><a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></li></a>
+        
+        <li><a href="./auth/logout.php" style="color: red;">Tancar Sessió</a></li>
+
+    <?php else: ?>
+    
+        <li><a href="./auth/login.html">Iniciar Sessió</a></li>
+        
+    <?php endif; ?>
       </ul>
     </nav>
     <div class="logoInicio">

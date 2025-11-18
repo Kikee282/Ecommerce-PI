@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         setcookie('user_id', $userFound['id'], time() + 3600, "/");
 
         echo "Login correcte! Benvingut " . htmlspecialchars($userFound['nom']);
-        echo "<br><a href='index.html'>Tornar a l'inici</a>";
+        echo "<br><a href='../index.php'>Tornar a l'inici</a>";
         // Opcional: header('Location: index.html');
         
     } else {
