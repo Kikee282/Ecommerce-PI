@@ -27,7 +27,7 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
         <div class="logoHeader">
           <img src="./contenido/logoParteArriba.png" alt="Logo Per L’Art">
         </div>   
-        <li>productes</li>
+        <a href="./productos.php"><li>Productes</li></a>
         <li>Sobre nosaltres</li>
         <li>Contacte</li>
         <?php if ($isLoggedIn): ?>
