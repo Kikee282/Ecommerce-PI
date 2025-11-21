@@ -167,13 +167,35 @@ if (!$productes) $productes = [];
     </section>
   </main>
 
-  <footer>
-     <div class="footer-bottom">
-      <div class="footer-section">
-        <p>correu@perlart.com</p>
-      </div>
-    </div>
-  </footer>
+  <footer class="main-footer">
+        <div class="container footer-grid">
+            
+            <div class="footer-logo">
+                <a href="#"><img src="./contenido/log_blanc.png" alt="Logo" lin></a>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Informació</h4>
+                <a href="#">Informació legal</a>
+                <a href="#">Política de devolucions</a>
+                <a href="#">Política de cookies</a>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Contacte</h4>
+                <p>Telèfon: 122 884 2887</p>
+                <a href="#">Sobre nosaltres</a>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Segueix-nos</h4>
+                <div class="social-icons">
+                    <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
   <script>
       function afegirAlCarret(idProducte) {
