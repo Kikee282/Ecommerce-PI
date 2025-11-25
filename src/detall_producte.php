@@ -35,6 +35,7 @@ if ($httpCode === 404 || !$producte) {
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($producte['nom']); ?> - Detall</title>
     <link rel="stylesheet" href="./styles/styleIndex.css">
+    
     <style>
         /* Estils per a la fitxa de detall */
         .detail-container {

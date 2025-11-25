@@ -21,7 +21,8 @@ if (!$productes) $productes = [];
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Productes - Per L’Art</title>
-  
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <link rel="stylesheet" href="./styles/styleIndex.css">
   
   <link rel="stylesheet" href="./styles/stylesProductes.css">
@@ -30,7 +31,7 @@ if (!$productes) $productes = [];
 
   <header class="main-header">
         <div class="header-container">
-            <a href="#"><img src="./contenido/logoParteArriba.png"></a>
+            <a href="./index.php"><img src="./contenido/logoParteArriba.png"></a>
             
             <nav class="main-nav">
         <ul>

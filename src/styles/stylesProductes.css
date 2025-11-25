@@ -1,74 +1,5 @@
-/* src/styles/stylesProductos.css */
 
-/* --- ESTILO GENERAL --- */
-body {
-    background-color: #fcfcfc; /* Un blanco roto muy sutil */
-    font-family: 'Georgia', serif; /* Mantener Georgia para el cuerpo si quieres, o cambiar globalmente */
-    margin: 0;
-    padding: 0;
-}
-
-/* --- HEADER EXACTO A LA FOTO --- */
-.header-exacto {
-    background-color: white;
-    padding: 15px 50px; /* Espacio lateral generoso */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* Opcional: una sombra muy sutil o borde abajo si lo tiene el index */
-    /* border-bottom: 1px solid #eaeaea; */ 
-}
-
-/* 1. Logo a la izquierda */
-.header-logo-container img {
-    height: 45px; /* Tamaño ajustado a la foto */
-    display: block;
-}
-
-/* 2. Contenedor derecha (Menú + Iconos) */
-.header-right-side {
-    display: flex;
-    align-items: center;
-    gap: 40px; /* Separación entre el texto y los iconos */
-}
-
-/* Navegación (Texto) */
-.nav-links-clean {
-    display: flex;
-    gap: 30px; /* Espacio entre enlaces */
-}
-
-.nav-links-clean a {
-    text-decoration: none;
-    color: #333; /* Gris oscuro casi negro */
-    font-family: 'Arial', 'Helvetica', sans-serif; /* FUENTE DE LA FOTO (Sans-serif) */
-    font-size: 15px;
-    font-weight: 400; /* Normal, no negrita */
-    letter-spacing: 0.5px;
-    transition: color 0.2s;
-}
-
-.nav-links-clean a:hover {
-    color: #000;
-}
-
-/* Iconos */
-.header-icons-clean {
-    display: flex;
-    gap: 20px;
-    font-size: 18px; /* Tamaño iconos */
-}
-
-.header-icons-clean a {
-    color: #222;
-    transition: transform 0.2s;
-}
-
-.header-icons-clean a:hover {
-    transform: scale(1.1);
-}
-
-/* --- TÍTULO Y CONTENIDO --- */
+/* --- TÍTOL DE PÀGINA --- */
 .catalog-container {
     max-width: 1200px;
     margin: 40px auto;
@@ -76,14 +7,16 @@ body {
 }
 
 .page-title {
-    font-family: 'Arial', sans-serif;
-    font-weight: bold;
-    font-size: 24px;
-    color: #333;
+    font-size: 2rem;
+    color: #222;
     margin-bottom: 40px;
+    font-weight: normal;
+    border-bottom: 2px solid #222; /* Detall decoratiu */
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
-/* --- GRID DE PRODUCTOS --- */
+/* --- GRID DE PRODUCTES --- */
 .showcase {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr);
@@ -97,50 +30,63 @@ body {
 }
 @media (max-width: 600px) {
     .showcase { grid-template-columns: 1fr; }
-    .header-exacto { flex-direction: column; gap: 15px; }
+    .header-exacto { flex-direction: column; gap: 20px; text-align: center;}
     .header-right-side { flex-direction: column; gap: 15px; }
-    .nav-links-clean { flex-direction: column; text-align: center; gap: 10px; }
+    .nav-links-clean { flex-direction: column; gap: 10px; }
 }
 
-/* --- TARJETAS DE PRODUCTO --- */
+/* --- TARGETES DE PRODUCTE --- */
 .producte-minimal {
     display: flex;
     flex-direction: column;
+    transition: opacity 0.3s;
+}
+
+.producte-minimal:hover {
+    opacity: 0.9;
 }
 
 .producte-minimal img {
     width: 100%;
-    height: 320px; /* Fotos altas y rectangulares como en tu ejemplo */
+    height: 350px; /* Fotos altes i elegants */
     object-fit: cover;
-    margin-bottom: 12px;
-    background-color: #f0f0f0;
+    margin-bottom: 15px;
+    background-color: #e5e5e5;
+    border-radius: 2px;
 }
 
 .prod-row-top {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start; /* Alineat a dalt per si el nom és llarg */
     margin-bottom: 5px;
 }
 
 .prod-name {
-    font-family: 'Times New Roman', serif; /* El nombre del producto sí parece serif en ejemplos de lujo */
-    font-size: 16px;
-    color: #111;
+    font-family: 'Georgia', serif;
+    font-size: 1.1rem;
+    color: #222;
     text-decoration: none;
+    line-height: 1.4;
+    max-width: 85%;
 }
 
 .prod-price {
-    font-family: 'Times New Roman', serif;
-    font-size: 15px;
+    font-size: 1rem;
     color: #555;
-    margin-top: 2px;
+    margin-top: 5px;
 }
 
 .btn-cart-icon {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 18px;
-    color: #333;
+    font-size: 1.2rem;
+    color: #222;
+    padding: 0;
+    transition: transform 0.2s;
+}
+
+.btn-cart-icon:hover {
+    transform: scale(1.1);
 }
