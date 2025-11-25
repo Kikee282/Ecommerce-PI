@@ -3,6 +3,7 @@ session_start();
 $isLoggedIn = isset($_SESSION['user_id']);
 $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
 
+// 1. Validar que tenim un ID
 if (!isset($_GET['id'])) {
     header("Location: productos.php");
     exit;
@@ -10,19 +11,36 @@ if (!isset($_GET['id'])) {
 
 $prodId = $_GET['id'];
 
-// API Request
+// 2. Preparar la connexió amb l'API
 $apiUrl = "http://jsonserver:3000/productes/" . $prodId;
+
+// 3. Executar la petició al servidor (CURL)
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $apiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_TIMEOUT, 5); 
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlError = curl_error($ch); 
 curl_close($ch);
 
+// 4. Intentar llegir les dades
 $producte = json_decode($response, true);
 
-if ($httpCode === 404 || !$producte) {
-    die("Producte no trobat.");
+// --- BLOC DE DEPURACIÓ (DEBUG) ---
+// Si alguna cosa va malament, mostrem les dades tècniques aquí
+if ($httpCode !== 200 || empty($producte)) {
+    echo "<div style='background: #ffe6e6; border: 1px solid red; padding: 20px; margin: 20px; font-family: monospace;'>";
+    echo "<h2 style='color: red; margin-top: 0;'>⚠️ Error de Depuració</h2>";
+    echo "<strong>ID Sol·licitat:</strong> " . htmlspecialchars($prodId) . "<br>";
+    echo "<strong>URL API Cridada:</strong> " . htmlspecialchars($apiUrl) . "<br>";
+    echo "<strong>Codi HTTP Resposta:</strong> " . $httpCode . "<br>";
+    echo "<strong>Error cURL (Xarxa):</strong> " . ($curlError ? $curlError : "Cap") . "<br>";
+    echo "<strong>Resposta RAW del Servidor:</strong><br>";
+    echo "<pre style='background: #fff; padding: 10px; border: 1px solid #ccc;'>" . htmlspecialchars($response ?? '') . "</pre>";
+    echo "<br><a href='productos.php'>Tornar enrere</a>";
+    echo "</div>";
+    die(); // Aturem la pàgina aquí per veure l'error
 }
 ?>
 
@@ -50,9 +68,9 @@ if ($httpCode === 404 || !$producte) {
             <nav class="nav-links-clean">
                 <a href="productos.php">Productes</a>
                 <a href="#">Sobre nosaltres</a>
-                <a href="#contacte">Contacte</a>
+                <a href="./contacte.php">Contacte</a>
                 <?php if ($isLoggedIn): ?>
-                    <a href="profile.php" style="font-weight: bold;">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></a>
+                    <a href="profile.php" style="font-weight: bold;"><?php echo htmlspecialchars($nombreUsuario); ?></a>
                 <?php else: ?>
                     <a href="login.html">Iniciar Sessió</a>
                 <?php endif; ?>
@@ -107,8 +125,11 @@ if ($httpCode === 404 || !$producte) {
         async function carregarComentaris() {
             const container = document.getElementById('llista-comentaris');
             try {
+                // Nota: Des del navegador client, accedim a 'localhost', no 'jsonserver'
                 const response = await fetch(`http://localhost:3000/comentaris?productId=${currentProductId}`);
+                
                 if (!response.ok) throw new Error('Error de xarxa');
+                
                 const comentaris = await response.json();
 
                 container.innerHTML = '';
@@ -135,7 +156,7 @@ if ($httpCode === 404 || !$producte) {
 
             } catch (error) {
                 console.error('Error:', error);
-                container.innerHTML = '<p style="color:red;">Error carregant comentaris.</p>';
+                container.innerHTML = '<p style="color:red;">Error carregant comentaris. Revisa que el JSON Server funcioni al port 3000.</p>';
             }
         }
 

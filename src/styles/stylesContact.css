@@ -1,0 +1,264 @@
+/* src/styles/stylesContact.css */
+
+/* --- ESTILO GENERAL --- */
+body {
+    background-color: #fcfcfc;
+    font-family: 'Georgia', serif;
+    margin: 0;
+    padding: 0;
+    /* IMPORTANTE: Esto empuja el contenido hacia abajo para que no lo tape el header fijo */
+    padding-top: 120px; 
+}
+
+/* --- HEADER FIJO (Copiado de stylesProductos.css para ser idéntico) --- */
+.header-exacto {
+    background-color: white;
+    height: 80px;
+    width: 100%;
+    position: fixed; /* Esto lo fija arriba */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Esto hace que esté por encima de todo */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Sombra suave */
+}
+
+.header-logo-container img {
+    height: 40px;
+    display: block;
+    object-fit: contain;
+}
+
+.header-right-side {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.nav-links-clean {
+    position: absolute;
+    left: 50%;
+    top: 50%; /* Opcional, depenent de l'alçada, per centrar verticalment */
+    transform: translate(-50%, -50%);
+    
+    display: flex;
+    gap: 30px; /* Espai entre enllaços */
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links-clean a {
+    text-decoration: none;
+    color: #333;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.nav-links-clean a:hover {
+    color: #3b7da3;
+}
+
+.header-icons-clean {
+    display: flex;
+    gap: 20px;
+    font-size: 16px;
+}
+
+.header-icons-clean a {
+    color: #222;
+}
+
+/* --- RESPONSIVE HEADER --- */
+@media (max-width: 950px) {
+    body { padding-top: 0; }
+    .header-exacto { 
+        position: relative; 
+        height: auto; 
+        flex-direction: column; 
+        padding: 20px; 
+        gap: 15px; 
+    }
+    .nav-links-clean { flex-direction: column; text-align: center; gap: 10px; }
+    .header-right-side { flex-direction: column; gap: 15px; }
+}
+
+/* --- FORMULARIO DE CONTACTO --- */
+.contact-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 20px 60px 20px;
+}
+
+#contactForm {
+    background-color: white;
+    padding: 40px 50px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+#contactForm h3 {
+    font-size: 2.2rem;
+    font-weight: normal;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 40px;
+    color: #222;
+}
+
+#contactForm label {
+    display: block;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#contactForm input[type="text"],
+#contactForm input[type="email"],
+#contactForm textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    background-color: #fafafa;
+    box-sizing: border-box;
+}
+
+#contactForm textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* Checkboxes */
+#contactForm div[style*="display: flex"] {
+    margin-bottom: 20px !important;
+    align-items: flex-start !important;
+}
+
+#contactForm label[for="privacyPolicy"],
+#contactForm label[for="skipValidation"] {
+    text-transform: none;
+    font-weight: normal;
+    font-size: 0.95rem;
+    color: #555;
+    cursor: pointer;
+    margin: 0;
+}
+
+/* Botón */
+.btn {
+    background-color: #3b7da3;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1rem;
+    font-family: 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background-color: #2a375a;
+}
+
+/* Mensajes */
+.server-errors {
+    background-color: #fff5f5;
+    color: #c53030;
+    border: 1px solid #feb2b2;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 6px;
+}
+
+.success-message {
+    background-color: white;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 40px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border-top: 4px solid #38a169;
+}
+
+.main-footer {
+    background-color: #243020; /* Color verde oscuro fijo */    color: var(--color-white);
+    padding: 60px 0;
+    color: white;
+    margin-top: 60px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 30px;
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-column h4 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.footer-column a,
+.footer-column p {
+    color: #ccc;
+    margin-bottom: 10px;
+    font-weight: 400;
+}
+
+.footer-column a:hover {
+    color: var(--color-white);
+    text-decoration: underline;
+}
+
+.footer-logo{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.footer-logo img {
+    width: 100%;         /* S'adapta al contenidor pare */
+    max-width: 250px;    /* Mida màxima elegant (pots canviar-ho a 180px si el vols més gran) */
+    height: auto;        /* Manté la proporció original */
+    display: block;      /* Evita espais en blanc sota la imatge */
+    margin-bottom: 20px; /* Espai entre el logo i el següent element si n'hi ha */
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    font-size: 1.5rem;
+    color: var(--color-white);
+    transition: transform 0.3s ease;
+}
+
+.social-icons a:hover {
+    transform: scale(1.2);
+}

@@ -129,7 +129,7 @@ if (!$userData) {
                 </div>
 
                 <div style="text-align: center; margin-top: 20px;">
-                    <a href="index.php" class="btn-back">Cancel·lar</a>
+                    <a href="../index.php" class="btn-back">Cancel·lar</a>
                     <button type="submit" class="btn">Guardar Canvis</button>
                 </div>
 

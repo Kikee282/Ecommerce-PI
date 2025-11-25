@@ -37,7 +37,7 @@ if (!$productes) $productes = [];
         <ul>
             <a href="./productos.php"><li>Productes</li></a>
             <a href=""><li>Sobre nosaltres</li></a>
-            <a><li>Contacte</li></a>
+            <a href="./contacte.php"><li>Contacte</li></a>
             <?php if ($isLoggedIn): ?>
         
             <li><a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></li></a>

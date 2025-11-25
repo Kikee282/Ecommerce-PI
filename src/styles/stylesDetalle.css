@@ -185,7 +185,7 @@ body {
 }
 
 .btn-add-cart {
-    background-color: #222;
+    background-color: #3b7da3;
     color: white;
     border: none;
     padding: 18px;
@@ -200,7 +200,7 @@ body {
 }
 
 .btn-add-cart:hover {
-    background-color: #000;
+    background-color: #2a375a;
 }
 
 /* --- SECCIÓ COMENTARIS --- */
