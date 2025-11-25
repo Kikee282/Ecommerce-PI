@@ -78,7 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <?php endif; ?>
         </div>
     </header>
-
     <main>
         <div class="contact-wrapper">
             

@@ -68,18 +68,25 @@ if ($httpCode !== 200 || empty($producte)) {
             <nav class="nav-links-clean">
                 <a href="productos.php">Productes</a>
                 <a href="#">Sobre nosaltres</a>
-                <a href="./contacte.php">Contacte</a>
+                <a href="contacte.php">Contacte</a>
                 <?php if ($isLoggedIn): ?>
-                    <a href="profile.php" style="font-weight: bold;"><?php echo htmlspecialchars($nombreUsuario); ?></a>
-                <?php else: ?>
-                    <a href="login.html">Iniciar Sessió</a>
-                <?php endif; ?>
+                    <a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></a>
+                    <a href="./auth/logout.php" style="color: red;">Tancar Sessió</a>
+                    <?php else: ?>
+                    <a href="./auth/login.html">Iniciar Sessió</a>
+                    <?php endif; ?>
             </nav>
-
+            <?php if ($isLoggedIn): ?>
             <div class="header-icons-clean">
-                <a href="profile.php"><i class="fas fa-user"></i></a>
+                <a href="./auth/profile.php"><i class="fas fa-user"></i></a>
                 <a href="#"><i class="fas fa-shopping-basket"></i></a>
             </div>
+            <?php else: ?>
+              <div class="header-icons-clean">
+                <a href="./auth/login.html"><i class="fas fa-user"></i></a>
+                <a href="#"><i class="fas fa-shopping-basket"></i></a>
+            </div>
+            <?php endif; ?>
         </div>
     </header>
 

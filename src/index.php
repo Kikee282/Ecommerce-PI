@@ -27,33 +27,36 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
 </head>
 <body>
 
-    <header class="main-header">
-        <div class="header-container">
-            <a href="#"><img src="./contenido/logoParteArriba.png"></a>
-            
-            <nav class="main-nav">
-        <ul>
-            <a href="./productos.php"><li>Productes</li></a>
-            <a href=""><li>Sobre nosaltres</li></a>
-            <a href="./contacte.php"><li>Contacte</li></a>
-            <?php if ($isLoggedIn): ?>
-        
-            <li><a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></li></a>
-            
-            <li><a href="./auth/logout.php" style="color: red;">Tancar Sessió</a></li>
+    <header class="header-exacto">
+        <div class="header-logo-container">
+            <a href="index.php">
+                <img src="./contenido/logoParteArriba.png" alt="Logo">
+            </a>
+        </div>
 
-            <?php else: ?>
-            
-                <li><a href="./auth/login.html">Iniciar Sessió</a></li>
-                
-            <?php endif; ?>
-        </ul>
-        </nav>
-            
-            <div class="header-icons">
-                <a href="./auth/login.html" aria-label="Compte"><i class="fas fa-user"></i></a>
-                <a href="#" aria-label="Cesta"><i class="fas fa-shopping-basket"></i></a>
+        <div class="header-right-side">
+            <nav class="nav-links-clean">
+                <a href="productos.php">Productes</a>
+                <a href="#">Sobre nosaltres</a>
+                <a href="contacte.php">Contacte</a>
+                <?php if ($isLoggedIn): ?>
+                    <a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></a>
+                    <a href="./auth/logout.php" style="color: red;">Tancar Sessió</a>
+                    <?php else: ?>
+                    <a href="./auth/login.html">Iniciar Sessió</a>
+                    <?php endif; ?>
+            </nav>
+            <?php if ($isLoggedIn): ?>
+            <div class="header-icons-clean">
+                <a href="./auth/profile.php"><i class="fas fa-user"></i></a>
+                <a href="#"><i class="fas fa-shopping-basket"></i></a>
             </div>
+            <?php else: ?>
+              <div class="header-icons-clean">
+                <a href="./auth/login.html"><i class="fas fa-user"></i></a>
+                <a href="#"><i class="fas fa-shopping-basket"></i></a>
+            </div>
+            <?php endif; ?>
         </div>
     </header>
 
