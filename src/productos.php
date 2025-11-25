@@ -63,32 +63,11 @@ if (!$productes) $productes = [];
     </header>
 
   <main>
-    <div class="catalog-container">
-        <h1 class="page-title">Todos los productos:</h1>
+<div class="catalog-container">
+        <h1 class="page-title">Tots els productes:</h1>
 
-        <section class="showcase">
-        <?php if (empty($productes)): ?>
-            <p>No hi ha productes disponibles.</p>
-        <?php else: ?>
-            <?php foreach ($productes as $prod): ?>
-                <div class="producte-minimal">
-                    <a href="detall_producte.php?id=<?php echo $prod['id']; ?>">
-                        <img src="<?php echo htmlspecialchars($prod['img'] ?? './contenido/image.png'); ?>" alt="<?php echo htmlspecialchars($prod['nom']); ?>">
-                    </a>
-                    
-                    <div class="prod-row-top">
-                        <a href="detall_producte.php?id=<?php echo $prod['id']; ?>" class="prod-name">
-                            <?php echo htmlspecialchars($prod['nom']); ?>
-                        </a>
-                        <button class="btn-cart-icon" onclick="afegirAlCarret(<?php echo $prod['id']; ?>)">
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
-                    </div>
-
-                    <div class="prod-price"><?php echo htmlspecialchars($prod['preu']); ?>€</div>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
+        <section class="showcase" id="lista-productos">
+            <p style="text-align:center; width: 100%; color: #666;">Carregant productes...</p>
         </section>
     </div>
     <footer class="main-footer">
@@ -120,6 +99,6 @@ if (!$productes) $productes = [];
             </div>
         </div>
     </footer>
-  </main>
+    </main>
 </body>
 </html>

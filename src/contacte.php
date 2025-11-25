@@ -159,6 +159,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
     </footer>
 
-    <script src="./validacion.js"></script>
+    <script src="./js/validacion.js"></script>
 </body>
 </html>
