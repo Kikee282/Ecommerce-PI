@@ -1,0 +1,199 @@
+/* src/styles/stylesDetalle.css */
+
+/* --- ESTILO GENERAL --- */
+body {
+    background-color: white;
+    font-family: 'Georgia', serif;
+    color: #222;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* --- HEADER (Idéntico a productos.php) --- */
+.header-exacto {
+    background-color: white;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.header-logo-container img {
+    height: 40px;
+    display: block;
+    object-fit: contain;
+}
+
+.header-right-side {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.nav-links-clean {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links-clean a {
+    text-decoration: none;
+    color: #222;
+    font-size: 1em;
+    transition: color 0.3s ease;
+}
+
+.nav-links-clean a:hover {
+    color: #555;
+}
+
+.header-icons-clean {
+    display: flex;
+    gap: 20px;
+    font-size: 1.1em;
+}
+
+.header-icons-clean a {
+    color: #222;
+    transition: opacity 0.3s;
+}
+
+.header-icons-clean a:hover {
+    opacity: 0.7;
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+    .header-exacto { flex-direction: column; gap: 15px; padding: 20px; }
+    .header-right-side { flex-direction: column; gap: 15px; }
+}
+
+/* --- CONTENEDOR PRINCIPAL --- */
+.detail-wrapper {
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+/* --- FICHA DE PRODUCTO --- */
+.product-detail-card {
+    display: flex;
+    gap: 60px;
+    margin-bottom: 60px;
+    align-items: start;
+}
+
+.detail-image {
+    flex: 1;
+}
+
+.detail-image img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 4px;
+    /* Sombra muy suave para dar profundidad */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+}
+
+.detail-info {
+    flex: 1;
+    padding-top: 10px;
+}
+
+.detail-title {
+    font-size: 2.5rem;
+    margin: 0 0 10px 0;
+    font-weight: normal;
+}
+
+.detail-sku {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.detail-price {
+    font-size: 1.8rem;
+    color: #444;
+    margin-bottom: 30px;
+    font-family: 'Georgia', serif;
+}
+
+.detail-desc {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 40px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 20px 0;
+}
+
+.btn-add-cart {
+    background-color: #222;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+    font-family: 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-add-cart:hover {
+    background-color: #444;
+}
+
+/* --- SECCIÓN COMENTARIOS --- */
+.comments-section {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.comments-section h2 {
+    font-size: 1.8rem;
+    border-bottom: 2px solid #222;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    font-weight: normal;
+}
+
+.comment {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+
+.comment-header {
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    color: #333;
+}
+
+.comment-date {
+    font-weight: normal;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.comment-body {
+    color: #555;
+    font-size: 1rem;
+}
+
+/* Responsive Ficha */
+@media (max-width: 768px) {
+    .product-detail-card { flex-direction: column; gap: 30px; }
+    .detail-image img { max-width: 100%; }
+}

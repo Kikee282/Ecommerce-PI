@@ -3,7 +3,6 @@ session_start();
 $isLoggedIn = isset($_SESSION['user_id']);
 $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
 
-// 1. Validar que tenim un ID
 if (!isset($_GET['id'])) {
     header("Location: productos.php");
     exit;
@@ -11,10 +10,8 @@ if (!isset($_GET['id'])) {
 
 $prodId = $_GET['id'];
 
-// 2. Obtenir dades del producte (Server-Side)
-// Nota: Fem servir el nom del contenidor 'jsonserver' per comunicació interna PHP->API
+// API Request
 $apiUrl = "http://jsonserver:3000/productes/" . $prodId;
-
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $apiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -33,126 +30,101 @@ if ($httpCode === 404 || !$producte) {
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($producte['nom']); ?> - Detall</title>
-    <link rel="stylesheet" href="./styles/styleIndex.css">
     
-    <style>
-        /* Estils per a la fitxa de detall */
-        .detail-container {
-            max-width: 900px;
-            margin: 40px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: flex;
-            gap: 40px;
-        }
-        .detail-image img {
-            max-width: 400px;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-        .detail-info { flex: 1; }
-        .price-large { font-size: 2em; color: #243020; font-weight: bold; margin: 20px 0; }
-        
-        /* Estils per als comentaris */
-        .comments-section {
-            max-width: 900px;
-            margin: 40px auto;
-            background: #f9f9f9;
-            padding: 30px;
-            border-radius: 10px;
-        }
-        .comment {
-            border-bottom: 1px solid #ddd;
-            padding: 15px 0;
-        }
-        .comment-header { font-weight: bold; margin-bottom: 5px; color: #333; }
-        .comment-date { font-size: 0.85em; color: #777; font-weight: normal; }
-        .comment-body { color: #555; }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="./styles/stylesDetalle.css">
 </head>
 <body>
 
-    <header>
-        <nav class="navbar">
-            <ul>
-        <div class="logoHeader">
-          <a href="index.php"><img src="./contenido/logoParteArriba.png" alt="Logo Per L’Art"></a>
-        </div>   
-        <li><a href="productos.php" style="font-weight: bold;">Productes</a></li>
-        <li><a href="#">Sobre nosaltres</a></li>
-        <li><a href="">Contacte</a></li>
+    <header class="header-exacto">
+        <div class="header-logo-container">
+            <a href="index.php">
+                <img src="./contenido/logoParteArriba.png" alt="Logo">
+            </a>
+        </div>
 
-        <?php if ($isLoggedIn): ?>
-            <li>Hola, <a href="profile.php"><strong><?php echo htmlspecialchars($nombreUsuario); ?></strong></a></li>
-            <li><a href="logout.php" style="color: red;">Sortir</a></li>
-        <?php else: ?>
-            <li><a href="login.html">Iniciar Sessió</a></li>
-        <?php endif; ?>
+        <div class="header-right-side">
+            <nav class="nav-links-clean">
+                <a href="productos.php">Productes</a>
+                <a href="#">Sobre nosaltres</a>
+                <a href="#contacte">Contacte</a>
+                <?php if ($isLoggedIn): ?>
+                    <a href="profile.php" style="font-weight: bold;">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></a>
+                <?php else: ?>
+                    <a href="login.html">Iniciar Sessió</a>
+                <?php endif; ?>
+            </nav>
 
-      </ul>
-        </nav>
+            <div class="header-icons-clean">
+                <a href="profile.php"><i class="fas fa-user"></i></a>
+                <a href="#"><i class="fas fa-shopping-basket"></i></a>
+            </div>
+        </div>
     </header>
 
     <main>
-        <div class="detail-container">
-            <div class="detail-image">
-                <img src="<?php echo htmlspecialchars($producte['img'] ?? './contenido/image.png'); ?>" alt="Imatge del producte">
+        <div class="detail-wrapper">
+            
+            <div class="product-detail-card">
+                <div class="detail-image">
+                    <img src="<?php echo htmlspecialchars($producte['img'] ?? './contenido/image.png'); ?>" alt="Imatge del producte">
+                </div>
+                
+                <div class="detail-info">
+                    <h1 class="detail-title"><?php echo htmlspecialchars($producte['nom']); ?></h1>
+                    <p class="detail-sku">REF: <?php echo htmlspecialchars($producte['sku'] ?? 'GENERIC'); ?></p>
+                    
+                    <div class="detail-price"><?php echo htmlspecialchars($producte['preu']); ?> €</div>
+                    
+                    <div class="detail-desc">
+                        <p><?php echo htmlspecialchars($producte['descripcio']); ?></p>
+                    </div>
+                    
+                    <p>Estoc disponible: <strong><?php echo $producte['estoc']; ?></strong></p>
+                    
+                    <button class="btn-add-cart" onclick="alert('Afegit al carret!')">
+                        Afegir al Carret
+                    </button>
+                </div>
             </div>
-            <div class="detail-info">
-                <h1><?php echo htmlspecialchars($producte['nom']); ?></h1>
-                <div class="price-large"><?php echo htmlspecialchars($producte['preu']); ?> €</div>
-                <p><?php echo htmlspecialchars($producte['descripcio']); ?></p>
-                <p>Estoc disponible: <?php echo $producte['estoc']; ?></p>
-                <button class="btn" onclick="alert('Afegit al carret!')">Afegir al Carret</button>
-            </div>
-        </div>
 
-        <div class="comments-section">
-            <h2>Comentaris i Valoracions</h2>
-            <div id="llista-comentaris">
-                <p>Carregant comentaris...</p>
+            <div class="comments-section">
+                <h2>Comentaris</h2>
+                <div id="llista-comentaris">
+                    <p>Carregant comentaris...</p>
+                </div>
             </div>
+
         </div>
     </main>
 
     <script>
-        // ID del producte actual (passat des de PHP a JS)
         const currentProductId = <?php echo $prodId; ?>;
 
-        // Funció per carregar comentaris via AJAX (Fetch API)
         async function carregarComentaris() {
             const container = document.getElementById('llista-comentaris');
-            
             try {
-                // 1. Fem la petició al JSON Server
-                // Nota: Des del navegador (JS), accedim a 'localhost', no 'jsonserver'
                 const response = await fetch(`http://localhost:3000/comentaris?productId=${currentProductId}`);
-                
                 if (!response.ok) throw new Error('Error de xarxa');
-                
                 const comentaris = await response.json();
 
-                // 2. Netegem el contenidor
                 container.innerHTML = '';
 
                 if (comentaris.length === 0) {
-                    container.innerHTML = '<p>Encara no hi ha comentaris per a aquest producte.</p>';
+                    container.innerHTML = '<p style="color:#777; font-style:italic;">Encara no hi ha comentaris per a aquest producte.</p>';
                     return;
                 }
 
-                // 3. Generem l'HTML per a cada comentari
                 comentaris.forEach(c => {
-                    // Format de data simple
                     const dataFormatada = new Date(c.data).toLocaleDateString('ca-ES');
-                    
                     const div = document.createElement('div');
                     div.className = 'comment';
                     div.innerHTML = `
                         <div class="comment-header">
-                            ${c.nom_usuari} <span class="comment-date">- ${dataFormatada}</span>
+                            ${c.nom_usuari} <span class="comment-date">${dataFormatada}</span>
                         </div>
                         <div class="comment-body">
                             ${c.text}
@@ -162,12 +134,11 @@ if ($httpCode === 404 || !$producte) {
                 });
 
             } catch (error) {
-                console.error('Error carregant comentaris:', error);
-                container.innerHTML = '<p style="color:red;">Error carregant els comentaris. Assegura\'t que el JSON Server està funcionant al port 3000.</p>';
+                console.error('Error:', error);
+                container.innerHTML = '<p style="color:red;">Error carregant comentaris.</p>';
             }
         }
 
-        // Executar la càrrega quan la pàgina estigui llesta
         document.addEventListener('DOMContentLoaded', carregarComentaris);
     </script>
 </body>
