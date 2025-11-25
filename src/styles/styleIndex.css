@@ -1,61 +1,127 @@
-/* src/styles/styleIndex.css */
+:root {
+    --color-primary: #3b7da3;
+    --color-footer-bg: #2a402a; 
+    --color-text: #333;
+    --color-light-gray: #f4f4f4;
+    --color-white: #ffffff;
 
-/* --- ESTIL GENERAL --- */
-body {
-    background-color: #fcfcfc; /* Fons blanc trencat */
-    font-family: 'Georgia', serif;
-    margin: 0;
-    padding: 0;
-    /* IMPORTANT: Empenyem el contingut cap avall perquè la barra fixa no el tapi */
-    padding-top: 80px; 
+    --font-main: 'Montserrat', sans-serif;
 }
 
-/* --- HEADER FIX (Navbar) --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+header img{
+    float: left;
+    max-width: 200px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.btn-primary:hover {
+    background-color: #2a375a; 
+    transform: translateY(-2px);
+}
+
+
 .header-exacto {
     background-color: white;
-    height: 80px; /* Alçada fixa per calcular bé el centre */
+    height: 80px;
     width: 100%;
     
-    /* Això fixa la barra a dalt de tot */
+    /* Fixem la capçalera a dalt */
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000; /* Assegura que estigui sempre per sobre de les fotos */
+    z-index: 1000;
     
-    /* Distribució: Logo a l'esquerra, Icones a la dreta */
+    /* Alineació */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
-    padding: 0 50px; /* Espai lateral */
+    padding: 0 40px;
     box-sizing: border-box;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Ombra suau */
+    
+    /* Ombra suau */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-/* 1. LOGO (Esquerra) */
 .header-logo-container img {
-    height: 40px;
+    height: 60px;
     display: block;
     object-fit: contain;
 }
 
-/* 2. GRUP DRETA (Només icones visualment) */
+/* Contenidor dreta (només agrupa icones visualment, el menú surt del flux) */
 .header-right-side {
     display: flex;
     align-items: center;
-    /* El menú sortirà d'aquí gràcies al position: absolute */
 }
 
-/* 3. MENÚ DE NAVEGACIÓ (CENTRAT PERFECTE) */
+/* --- MENÚ CENTRAT ABSOLUTAMENT --- */
 .nav-links-clean {
-    /* Truc per centrar exactament al mig de la finestra */
+    /* Truc per centrar exactament al mig de la pantalla */
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     
     display: flex;
-    gap: 30px; /* Espai entre els enllaços */
+    gap: 30px;
     margin: 0;
     padding: 0;
 }
@@ -63,24 +129,24 @@ body {
 .nav-links-clean a {
     text-decoration: none;
     color: #333;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Font neta */
-    font-size: 14px;
+    /* Font Sans-serif neta per al menú (com a la foto) */
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    font-size: 15px;
     font-weight: 400;
     letter-spacing: 0.5px;
-    transition: color 0.2s ease;
+    transition: color 0.2s;
+    white-space: nowrap;
 }
 
 .nav-links-clean a:hover {
-    color: #000;
-    font-weight: 600;
+    color:#3b7da3;
 }
 
-/* 4. ICONES (Dreta) */
+/* Icones */
 .header-icons-clean {
     display: flex;
-    gap: 20px;
-    font-size: 16px;
-    color: #222;
+    gap: 25px;
+    font-size: 18px;
 }
 
 .header-icons-clean a {
@@ -92,46 +158,31 @@ body {
     transform: scale(1.1);
 }
 
-/* --- RESPONSIVE (Mòbil) --- */
-@media (max-width: 950px) {
-    body { padding-top: 0; } /* En mòbil no volem padding fix */
-    
-    .header-exacto { 
-        position: relative; /* Deixa de ser fix */
-        height: auto; 
-        flex-direction: column; 
-        padding: 20px; 
-        gap: 15px; 
-    }
-    
-    .nav-links-clean {
-        position: static; /* Treiem el posicionament absolut */
-        transform: none;
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-    }
-    
-    .header-right-side {
-        width: 100%;
-        justify-content: center;
-        flex-direction: column;
-        gap: 15px;
-    }
-}
-
-/* --- HERO SECTION --- */
 .hero {
-    position: relative;
+    position: relative; 
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Alineació esquerra */
-    min-height: 60vh;
-    padding: 60px 50px;
-    overflow: hidden;
+    min-height: 70vh;
+    padding: 60px 0;
+    overflow: hidden; 
+}
+
+.hero-content {
     color: white;
-    border-radius: 8px;
-    margin: 20px; /* Marge al voltant del banner */
+    flex: 1;
+    z-index: 2;
+    padding-right: 40px;
+    padding-left: 5%;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
 }
 
 .hero-background-image {
@@ -140,126 +191,266 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
-    background-image: url('../contenido/fondo.jpg'); 
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.7); /* Enfosquir per llegir text */
+    z-index: 1; 
+    background-image: url('../contenido/hero_mod.jpg');
+    background-size: cover; 
+    background-position: center right; 
+    background-repeat: no-repeat;
 }
 
-.hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 600px;
+
+.featured-products,
+.featured-categories {
+    padding: 80px 0;
 }
 
-.hero-content h1 {
-    font-size: 3.5rem;
-    margin-bottom: 20px;
-    color: white !important;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-    font-weight: normal;
+.featured-categories {
+    background-color: var(--color-light-gray);
 }
 
-.hero-content p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    color: #f0f0f0 !important;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-}
 
-.btn-hero {
-    display: inline-block;
-    background-color: #3b7da3; /* Blau corporatiu */
-    color: white;
-    padding: 15px 30px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-family: 'Arial', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    transition: background 0.3s;
-}
-
-.btn-hero:hover {
-    background-color: #2a5c7a;
-}
-
-/* --- PRODUCTES DESTACATS --- */
-.featured-products {
-    max-width: 1200px;
-    margin: 60px auto;
-    padding: 0 20px;
-}
-
-.featured-products h2 {
-    text-align: left; /* Títol alineat a l'esquerra com sol ser elegant */
-    font-size: 2rem;
-    margin-bottom: 40px;
-    font-weight: normal;
-    color: #222;
-}
-
-.showcase {
+.product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
+    gap: 30px;
 }
 
-/* Responsive Grid */
-@media (max-width: 768px) {
-    .showcase { grid-template-columns: 1fr; }
+.product-card {
+    background-color: var(--color-white);
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    opacity: 0;
+    animation-name: fadeInUp;
+    animation-duration: 0.7s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
 }
 
-/* --- TARGETA PRODUCTE (Estil net) --- */
-.producte-minimal {
+.product-grid .product-card:nth-child(1) {
+    animation-delay: 0.2s;
+}
+.product-grid .product-card:nth-child(2) {
+    animation-delay: 0.4s;
+}
+.product-grid .product-card:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover; 
+}
+
+.product-card h3 {
+    font-size: 1.2rem;
+    margin-top: 15px;
+}
+
+.product-card .price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-dark);
+    margin-bottom: 15px;
+}
+
+.product-card .btn-icon {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-radius: 15%;
+    width: 30px;
+    height: 35px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.product-card .btn-icon:hover {
+    background-color: #2a375a;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.category-item {
+    text-align: center;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.category-item img {
+    width: 100%;
+    height: 300px; 
+    object-fit: cover;
+    border-radius: 20%;
+    margin-bottom: 15px;
+    border: 4px solid var(--color-white);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.category-item img:hover {
+    transform: scale(1.05);
+}
+
+.category-item h3 {
+    font-size: 1.5rem;
+}
+
+.main-footer {
+    background-color: var(--color-footer-bg);
+    color: var(--color-white);
+    padding: 60px 0;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 30px;
+}
+
+.footer-column {
     display: flex;
     flex-direction: column;
 }
 
-.producte-minimal img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    margin-bottom: 15px;
-    background-color: #ddd;
-}
-
-.prod-row-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-.prod-name {
-    color: #222;
-    text-decoration: none;
-    font-family: 'Times New Roman', serif;
+.footer-column h4 {
     font-size: 1.1rem;
+    margin-bottom: 15px;
 }
 
-.prod-price {
-    font-family: 'Times New Roman', serif;
-    color: #555;
-    font-size: 1rem;
+.footer-column a,
+.footer-column p {
+    color: #ccc;
+    margin-bottom: 10px;
+    font-weight: 400;
 }
 
-.btn-cart-icon {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    color: #222;
+.footer-column a:hover {
+    color: var(--color-white);
+    text-decoration: underline;
 }
 
-/* --- FOOTER --- */
-.main-footer {
-    background-color: #243020;
-    color: white;
-    padding: 40px 0;
-    margin-top: 80px;
-    text-align: center;
+.footer-logo{
+    max-width: 250px;
+    height: auto;
 }
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    font-size: 1.5rem;
+    color: var(--color-white);
+    transition: transform 0.3s ease;
+}
+
+.social-icons a:hover {
+    transform: scale(1.2);
+}
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); 
+    }
+}
+
+.hero-content h1,
+.hero-content p,
+.hero-content .btn {
+    opacity: 0;
+    animation-name: fadeInUp;
+    animation-duration: 0.8s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards; 
+}
+
+.hero-content p {
+    animation-delay: 0.3s;
+}
+
+.hero-content .btn {
+    animation-delay: 0.6s;
+}
+
+
+@media (max-width: 768px) {
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    .main-nav {
+        display: none;
+    }
+    .header-container {
+        justify-content: space-between;
+    }
+    .logo { font-size: 1.5rem; }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 0;
+    }
+    .hero-content {
+        padding: 0 20px;
+        order: 2; 
+
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+        color: #ccc;
+    }
+    .hero-image {
+        order: 1; 
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .product-grid,
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-grid .product-card:nth-child(n) {
+        animation-delay: 0.2s; 
+    }
+
+    .category-item img {
+        height: 250px;
+        width: 250px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+    .footer-logo {
+        text-align: center;
+        margin-bottom: 20px;
+    }}

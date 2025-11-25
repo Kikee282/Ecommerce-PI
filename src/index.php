@@ -17,7 +17,7 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Per L'Art - Joieria</title>
     
-    <link rel="stylesheet" href="./styles/styleIndex.css">
+    <link rel="stylesheet" href="/styles/styleIndex.css?v=<?php echo time(); ?>">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
