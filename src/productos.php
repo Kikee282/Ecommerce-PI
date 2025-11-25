@@ -1,21 +1,17 @@
 <?php
 session_start();
-
-// Dades de l'usuari per al Header
 $isLoggedIn = isset($_SESSION['user_id']);
 $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
 
-// --- 1. OBTENIR PRODUCTES DEL JSON SERVER (API) ---
+// API
 $apiUrl = "http://jsonserver:3000/productes";
-
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $apiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_TIMEOUT, 5); 
 $jsonResponse = curl_exec($ch);
 curl_close($ch);
-
 $productes = json_decode($jsonResponse, true);
-
 if (!$productes) $productes = [];
 ?>
 
@@ -25,149 +21,73 @@ if (!$productes) $productes = [];
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Productes - Per L’Art</title>
+  
   <link rel="stylesheet" href="./styles/styleIndex.css">
-  <style>
-    /* --- ESTILS ESPECÍFICS PER A LA GRAELLA DE PRODUCTES --- */
-    
-    /* Convertim el contenidor en una graella (Grid) */
-    .showcase {
-        display: grid !important; /* !important per sobreescriure styleIndex.css */
-        /* 3 columnes d'igual amplada. Es redueix automàticament en pantalles petites */
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-        gap: 40px;
-        align-items: start; /* Alineem els elements a dalt */
-        width: 90%; /* Una mica més ample per aprofitar l'espai */
-        max-width: 1200px;
-    }
-
-    /* Estil de cada targeta de producte */
-    .producte {
-        display: flex !important;
-        flex-direction: column !important; /* Imatge dalt, text baix */
-        align-items: center;
-        text-align: center;
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Ombra suau */
-        transition: transform 0.2s;
-        width: 100%;
-        height: 70%; /* Perquè totes les targetes tinguin la mateixa alçada */
-    }
-
-    /* Efecte en passar el ratolí */
-    .producte:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-    }
-
-    /* Sobreescrivim la regla de "files alternes" del CSS original */
-    .producte:nth-child(even) {
-        flex-direction: column !important;
-    }
-
-    /* Imatges */
-    .producte img {
-        width: 100%;
-        height: 250px; /* Alçada fixa */
-        object-fit: cover; /* Retalla la imatge sense deformar-la */
-        border-radius: 8px;
-        margin-bottom: 15px;
-    }
-
-    /* Títol del producte */
-    .producte h3 {
-        font-size: 1.2rem;
-        margin: 10px 0;
-        color: #333;
-    }
-
-    /* Descripció */
-    .producte p {
-        font-size: 0.95rem;
-        color: #666;
-        line-height: 1.5;
-        flex-grow: 1; /* Empeny el preu i el botó cap avall */
-        text-align: center !important; /* Forcem text centrat */
-    }
-
-    .price-tag {
-        font-weight: bold;
-        color: #243020;
-        font-size: 1.3em;
-        margin: 15px 0;
-    }
-
-    .btn {
-        width: 100%; /* Botó ocupa tot l'ample de la targeta */
-    }
-  </style>
+  
+  <link rel="stylesheet" href="./styles/stylesProductes.css">
 </head>
 <body>
 
-  <header>
-    <div class="top-deco"></div>
-    <nav class="navbar">
-      <ul>
-        <div class="logoHeader">
-          <a href="index.php"><img src="./contenido/logoParteArriba.png" alt="Logo Per L’Art"></a>
-        </div>   
-        <li><a href="productos.php" style="font-weight: bold;">Productes</a></li>
-        <li><a href="#">Sobre nosaltres</a></li>
-        <li><a href="">Contacte</a></li>
+  <header class="main-header">
+        <div class="header-container">
+            <a href="#"><img src="./contenido/logoParteArriba.png"></a>
+            
+            <nav class="main-nav">
+        <ul>
+            <a href="./productos.php"><li>Productes</li></a>
+            <a href=""><li>Sobre nosaltres</li></a>
+            <a><li>Contacte</li></a>
+            <?php if ($isLoggedIn): ?>
+        
+            <li><a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></li></a>
+            
+            <li><a href="./auth/logout.php" style="color: red;">Tancar Sessió</a></li>
 
-        <?php if ($isLoggedIn): ?>
-            <li>Hola, <a href="profile.php"><strong><?php echo htmlspecialchars($nombreUsuario); ?></strong></a></li>
-            <li><a href="logout.php" style="color: red;">Sortir</a></li>
-        <?php else: ?>
-            <li><a href="login.html">Iniciar Sessió</a></li>
-        <?php endif; ?>
-
-      </ul>
-    </nav>
-    <div class="logoInicio">
-        <img src="./contenido/logo.png" alt="Logo Per L’Art">
-    </div>
-  </header>
+            <?php else: ?>
+            
+                <li><a href="./auth/login.html">Iniciar Sessió</a></li>
+                
+            <?php endif; ?>
+        </ul>
+        </nav>
+            
+            <div class="header-icons">
+                <a href="./auth/login.html" aria-label="Compte"><i class="fas fa-user"></i></a>
+                <a href="#" aria-label="Cesta"><i class="fas fa-shopping-basket"></i></a>
+            </div>
+        </div>
+    </header>
 
   <main>
-    <section class="intro">
-      <h1>El Nostre Catàleg</h1>
-      <p>Peces úniques fetes a mà amb amor i dedicació.</p>
-    </section>
+    <div class="catalog-container">
+        <h1 class="page-title">Todos los productos:</h1>
 
-    <section class="showcase" id="productes">
-      
-      <?php if (empty($productes)): ?>
-          <p style="text-align: center; grid-column: 1 / -1;">No hi ha productes disponibles en aquest moment.</p>
-      <?php else: ?>
-          
-          <?php foreach ($productes as $prod): ?>
-            <div class="producte">
-                <a href="detall_producte.php?id=<?php echo $prod['id']; ?>">
-                    <img src="<?php echo htmlspecialchars($prod['img'] ?? './contenido/image.png'); ?>" alt="<?php echo htmlspecialchars($prod['nom']); ?>">
-                </a>
-                
-                <a href="detall_producte.php?id=<?php echo $prod['id']; ?>" style="text-decoration: none; color: inherit;">
-                    <h3><?php echo htmlspecialchars($prod['nom']); ?></h3>
-                </a>
-                <p><?php echo htmlspecialchars($prod['descripcio']); ?></p>
-                <div class="price-tag"><?php echo htmlspecialchars($prod['preu']); ?> €</div>
-                
-                <?php if ($prod['estoc'] > 0): ?>
-                    <button class="btn" onclick="afegirAlCarret(<?php echo $prod['id']; ?>)">Afegir al Carret</button>
-                <?php else: ?>
-                    <p style="color: red; font-weight: bold;">Esgotat</p>
-                <?php endif; ?>
-            </div>
-          <?php endforeach; ?>
+        <section class="showcase">
+        <?php if (empty($productes)): ?>
+            <p>No hi ha productes disponibles.</p>
+        <?php else: ?>
+            <?php foreach ($productes as $prod): ?>
+                <div class="producte-minimal">
+                    <a href="detall_producte.php?id=<?php echo $prod['id']; ?>">
+                        <img src="<?php echo htmlspecialchars($prod['img'] ?? './contenido/image.png'); ?>" alt="<?php echo htmlspecialchars($prod['nom']); ?>">
+                    </a>
+                    
+                    <div class="prod-row-top">
+                        <a href="detall_producte.php?id=<?php echo $prod['id']; ?>" class="prod-name">
+                            <?php echo htmlspecialchars($prod['nom']); ?>
+                        </a>
+                        <button class="btn-cart-icon" onclick="afegirAlCarret(<?php echo $prod['id']; ?>)">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
 
-      <?php endif; ?>
-
-    </section>
-  </main>
-
-  <footer class="main-footer">
+                    <div class="prod-price"><?php echo htmlspecialchars($prod['preu']); ?>€</div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        </section>
+    </div>
+    <footer class="main-footer">
         <div class="container footer-grid">
             
             <div class="footer-logo">
@@ -196,12 +116,6 @@ if (!$productes) $productes = [];
             </div>
         </div>
     </footer>
-
-  <script>
-      function afegirAlCarret(idProducte) {
-          alert("Producte " + idProducte + " afegit al carret (Simulació)");
-      }
-  </script>
-
+  </main>
 </body>
 </html>

@@ -32,26 +32,26 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
             <a href="#"><img src="./contenido/logoParteArriba.png"></a>
             
             <nav class="main-nav">
-      <ul>
-        <a href="./productos.php"><li>Productes</li></a>
-        <li>Sobre nosaltres</li>
-        <li>Contacte</li>
-        <?php if ($isLoggedIn): ?>
-    
-        <li><a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></li></a>
+        <ul>
+            <a href="./productos.php"><li>Productes</li></a>
+            <a href=""><li>Sobre nosaltres</li></a>
+            <a><li>Contacte</li></a>
+            <?php if ($isLoggedIn): ?>
         
-        <li><a href="./auth/logout.php" style="color: red;">Tancar Sessió</a></li>
+            <li><a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></li></a>
+            
+            <li><a href="./auth/logout.php" style="color: red;">Tancar Sessió</a></li>
 
-          <?php else: ?>
-          
-              <li><a href="./auth/login.html">Iniciar Sessió</a></li>
-              
-          <?php endif; ?>
-          </ul>
+            <?php else: ?>
+            
+                <li><a href="./auth/login.html">Iniciar Sessió</a></li>
+                
+            <?php endif; ?>
+        </ul>
         </nav>
             
             <div class="header-icons">
-                <a href="#" aria-label="Compte"><i class="fas fa-user"></i></a>
+                <a href="./auth/login.html" aria-label="Compte"><i class="fas fa-user"></i></a>
                 <a href="#" aria-label="Cesta"><i class="fas fa-shopping-basket"></i></a>
             </div>
         </div>

@@ -142,6 +142,7 @@ h2 {
 }
 
 .hero-content {
+    color: white;
     flex: 1;
     z-index: 2;
     padding-right: 40px;
@@ -387,11 +388,10 @@ h2 {
     .hero-content {
         padding: 0 20px;
         order: 2; 
-
     }
+
     .hero-content h1 {
         font-size: 2.5rem;
-        color: #ccc;
     }
     .hero-image {
         order: 1; 
