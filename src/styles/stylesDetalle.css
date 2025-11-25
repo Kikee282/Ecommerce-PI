@@ -1,87 +1,137 @@
 /* src/styles/stylesDetalle.css */
 
-/* --- ESTILO GENERAL --- */
+/* --- ESTIL GENERAL --- */
 body {
-    background-color: white;
+    background-color: #fcfcfc;
     font-family: 'Georgia', serif;
-    color: #222;
     margin: 0;
     padding: 0;
-    line-height: 1.6;
+    /* IMPORTANT: Compensem l'alçada del header fix (80px) + espai extra */
+    padding-top: 120px; 
 }
 
-/* --- HEADER (Idéntico a productos.php) --- */
+/* --- HEADER FIX I CENTRAT (Idèntic a Productes) --- */
 .header-exacto {
     background-color: white;
-    padding: 20px 50px;
+    height: 80px;
+    width: 100%;
+    
+    /* Fixem la capçalera a dalt */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    
+    /* Alineació */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding: 0 40px;
+    box-sizing: border-box;
+    
+    /* Ombra suau */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .header-logo-container img {
-    height: 40px;
+    height: 60px;
     display: block;
     object-fit: contain;
 }
 
+/* Contenidor dreta (només agrupa icones visualment, el menú surt del flux) */
 .header-right-side {
     display: flex;
     align-items: center;
-    gap: 35px;
 }
 
+/* --- MENÚ CENTRAT ABSOLUTAMENT --- */
 .nav-links-clean {
+    /* Truc per centrar exactament al mig de la pantalla */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    
     display: flex;
     gap: 30px;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links-clean a {
     text-decoration: none;
-    color: #222;
-    font-size: 1em;
-    transition: color 0.3s ease;
+    color: #333;
+    /* Font Sans-serif neta per al menú (com a la foto) */
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+    white-space: nowrap;
 }
 
 .nav-links-clean a:hover {
-    color: #555;
+    color: #000;
+    font-weight: 600;
 }
 
+/* Icones */
 .header-icons-clean {
     display: flex;
-    gap: 20px;
-    font-size: 1.1em;
+    gap: 25px;
+    font-size: 18px;
 }
 
 .header-icons-clean a {
     color: #222;
-    transition: opacity 0.3s;
+    transition: transform 0.2s;
 }
 
 .header-icons-clean a:hover {
-    opacity: 0.7;
+    transform: scale(1.1);
 }
 
 /* Responsive Header */
-@media (max-width: 768px) {
-    .header-exacto { flex-direction: column; gap: 15px; padding: 20px; }
-    .header-right-side { flex-direction: column; gap: 15px; }
+@media (max-width: 950px) {
+    body { padding-top: 0; } /* En mòbil treiem el padding fix */
+    
+    .header-exacto { 
+        position: relative; /* Deixa de ser fix en pantalles petites */
+        height: auto;
+        flex-direction: column; 
+        padding: 20px; 
+        gap: 20px;
+    }
+    .nav-links-clean {
+        position: static; /* Tornem al flux normal */
+        transform: none;
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    .header-right-side { width: 100%; justify-content: center; }
 }
 
-/* --- CONTENEDOR PRINCIPAL --- */
+
+/* --- CONTENEDOR DETALL --- */
 .detail-wrapper {
     max-width: 1100px;
-    margin: 50px auto;
-    padding: 0 20px;
+    margin: 0 auto; /* Ja tenim padding-top al body, no cal margin-top gran */
+    padding: 0 20px 50px 20px;
 }
 
-/* --- FICHA DE PRODUCTO --- */
+/* --- FITXA DE PRODUCTE --- */
 .product-detail-card {
     display: flex;
     gap: 60px;
-    margin-bottom: 60px;
-    align-items: start;
+    margin-bottom: 80px;
+    align-items: flex-start;
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    /* Opcional: Ombra per destacar la fitxa sobre el fons beix */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
 }
 
 .detail-image {
@@ -90,90 +140,96 @@ body {
 
 .detail-image img {
     width: 100%;
-    max-width: 500px;
     height: auto;
     border-radius: 4px;
-    /* Sombra muy suave para dar profundidad */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+    object-fit: cover;
 }
 
 .detail-info {
     flex: 1;
-    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .detail-title {
-    font-size: 2.5rem;
+    font-family: 'Georgia', serif;
+    font-size: 2.2rem;
+    color: #222;
     margin: 0 0 10px 0;
     font-weight: normal;
 }
 
 .detail-sku {
     font-family: 'Arial', sans-serif;
-    font-size: 0.9rem;
-    color: #777;
-    margin-bottom: 20px;
+    font-size: 0.85rem;
+    color: #888;
     text-transform: uppercase;
     letter-spacing: 1px;
+    margin-bottom: 20px;
 }
 
 .detail-price {
+    font-family: 'Georgia', serif;
     font-size: 1.8rem;
     color: #444;
-    margin-bottom: 30px;
-    font-family: 'Georgia', serif;
+    margin-bottom: 25px;
 }
 
 .detail-desc {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: #555;
-    margin-bottom: 40px;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    padding: 20px 0;
+    line-height: 1.7;
+    margin-bottom: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
 }
 
 .btn-add-cart {
     background-color: #222;
     color: white;
     border: none;
-    padding: 15px 40px;
+    padding: 18px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background-color 0.3s;
     width: 100%;
     font-family: 'Arial', sans-serif;
     text-transform: uppercase;
     letter-spacing: 1px;
+    font-weight: bold;
 }
 
 .btn-add-cart:hover {
-    background-color: #444;
+    background-color: #000;
 }
 
-/* --- SECCIÓN COMENTARIOS --- */
+/* --- SECCIÓ COMENTARIS --- */
 .comments-section {
     max-width: 800px;
     margin: 0 auto;
 }
 
 .comments-section h2 {
-    font-size: 1.8rem;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5rem;
     border-bottom: 2px solid #222;
     padding-bottom: 10px;
     margin-bottom: 30px;
-    font-weight: normal;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .comment {
     background: white;
-    padding: 20px;
+    padding: 25px;
     margin-bottom: 20px;
-    border-radius: 4px;
-    border: 1px solid #eee;
+    border-radius: 6px;
+    border: 1px solid #eaeaea;
 }
 
 .comment-header {
+    font-family: 'Arial', sans-serif;
     font-weight: bold;
     margin-bottom: 8px;
     display: flex;
@@ -184,16 +240,20 @@ body {
 .comment-date {
     font-weight: normal;
     font-size: 0.85rem;
-    color: #888;
+    color: #999;
 }
 
 .comment-body {
     color: #555;
     font-size: 1rem;
+    line-height: 1.5;
 }
 
 /* Responsive Ficha */
 @media (max-width: 768px) {
-    .product-detail-card { flex-direction: column; gap: 30px; }
-    .detail-image img { max-width: 100%; }
+    .product-detail-card { 
+        flex-direction: column; 
+        gap: 30px; 
+        padding: 20px;
+    }
 }
