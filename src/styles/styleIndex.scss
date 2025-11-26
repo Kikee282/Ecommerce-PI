@@ -1,0 +1,458 @@
+/* 1. VARIABLES (SASS) - Reemplazan al :root para cumplir el requisito */
+$color-primary: #3b7da3;
+$color-dark: #222;
+$color-text: #333;
+$color-light-gray: #f4f4f4;
+$color-white: #ffffff;
+$color-footer-bg: #2a402a;
+$font-main: 'Montserrat', sans-serif;
+
+/* 2. MIXIN CON CONDICIONAL (@if) 
+   Usamos esto para los botones. Si es 'grande' pone unos estilos, 
+   si es 'icono' pone otros. */
+@mixin estilo-boton($tipo) {
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: $color-primary;
+    color: $color-white;
+
+    @if $tipo == 'grande' {
+        display: inline-block;
+        padding: 10px 25px;
+        border-radius: 5px;
+        font-weight: 700;
+        
+        &:hover {
+            background-color: #2a375a; 
+            transform: translateY(-2px);
+        }
+    } 
+    @else if $tipo == 'icono' {
+        border-radius: 15%;
+        width: 30px;
+        height: 35px;
+        font-size: 1rem;
+        margin-bottom: 20px;
+        
+        &:hover {
+            background-color: #2a375a;
+        }
+    }
+}
+
+/* ===== INICIO DEL CSS ORIGINAL ===== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: $font-main; /* Variable */
+    color: $color-text;      /* Variable */
+    line-height: 1.6;
+}
+
+header img{
+    float: left;
+    max-width: 200px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+}
+
+/* Aquí aplicamos el MIXIN que creamos arriba */
+.btn-primary {
+    @include estilo-boton('grande');
+}
+
+.header-exacto {
+    background-color: white;
+    height: 80px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.header-logo-container img {
+    height: 60px;
+    display: block;
+    object-fit: contain;
+}
+
+.header-right-side {
+    display: flex;
+    align-items: center;
+}
+
+/* 3. ANIDACIÓN (Nesting) 
+   Agrupamos los enlaces dentro de su contenedor padre */
+.nav-links-clean {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+
+    a {
+        text-decoration: none;
+        color: #333;
+        font-family: 'Arial', 'Helvetica', sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+        transition: color 0.2s;
+        white-space: nowrap;
+
+        &:hover {
+            color: $color-primary; /* Variable */
+        }
+    }
+}
+
+.header-icons-clean {
+    display: flex;
+    gap: 25px;
+    font-size: 18px;
+
+    a {
+        color: #222;
+        transition: transform 0.2s;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}
+
+.hero {
+    position: relative; 
+    display: flex;
+    align-items: center;
+    min-height: 70vh;
+    padding: 60px 0;
+    overflow: hidden; 
+}
+
+/* Anidación sencilla para el Hero */
+.hero-content {
+    color: white;
+    flex: 1;
+    z-index: 2;
+    padding-right: 40px;
+    padding-left: 5%;
+
+    h1 {
+        font-size: 3.5rem;
+        line-height: 1.2;
+    }
+
+    p {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+}
+
+.hero-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; 
+    background-image: url('../contenido/hero_mod.jpg');
+    background-size: cover; 
+    background-position: center right; 
+    background-repeat: no-repeat;
+}
+
+.featured-products,
+.featured-categories {
+    padding: 80px 0;
+}
+
+.featured-categories {
+    background-color: $color-light-gray; /* Variable */
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+/* Tarjetas de Producto */
+.product-card {
+    background-color: $color-white; /* Variable */
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    opacity: 0;
+    animation-name: fadeInUp;
+    animation-duration: 0.7s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+
+    /* 4. BUCLE (@for) 
+       Genera los retrasos (delay) automáticamente para los 3 productos */
+    @for $i from 1 through 3 {
+        &:nth-child(#{$i}) {
+            animation-delay: #{$i * 0.2}s; 
+        }
+    }
+
+    /* Anidación para hover */
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+
+    img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover; 
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        margin-top: 15px;
+    }
+
+    .price {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: $color-dark; /* Variable */
+        margin-bottom: 15px;
+    }
+
+    /* Aquí aplicamos el MIXIN otra vez (tipo icono) */
+    .btn-icon {
+        @include estilo-boton('icono');
+    }
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.category-item {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+
+    img {
+        width: 100%;
+        height: 300px; 
+        object-fit: cover;
+        border-radius: 20%;
+        margin-bottom: 15px;
+        border: 4px solid $color-white; /* Variable */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+}
+
+.main-footer {
+    background-color: $color-footer-bg; /* Variable */
+    color: $color-white; /* Variable */
+    padding: 60px 0;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 30px;
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+
+    h4 {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+
+    a, p {
+        color: #ccc;
+        margin-bottom: 10px;
+        font-weight: 400;
+    }
+
+    a:hover {
+        color: $color-white; /* Variable */
+        text-decoration: underline;
+    }
+}
+
+.footer-logo{
+    max-width: 250px;
+    height: auto;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+
+    a {
+        font-size: 1.5rem;
+        color: $color-white; /* Variable */
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+}
+
+/* Keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); 
+    }
+}
+
+.hero-content h1,
+.hero-content p,
+.hero-content .btn { /* Ojo: .btn ahora está dentro del mixin, pero esto funciona igual para animar */
+    opacity: 0;
+    animation-name: fadeInUp;
+    animation-duration: 0.8s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards; 
+}
+
+.hero-content p {
+    animation-delay: 0.3s;
+}
+
+/* Si usamos mixin, el botón ya no tiene clase .btn explícita a veces, 
+   pero si tu HTML tiene class="btn btn-primary" funcionará. 
+   Apuntamos a la clase específica */
+.hero-content .btn-primary {
+    animation-delay: 0.6s;
+}
+
+/* ===== RESPONSIVE (Mantenido al final como el original) ===== */
+@media (max-width: 768px) {
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    .main-nav {
+        display: none;
+    }
+    .header-container {
+        justify-content: space-between;
+    }
+    .logo { font-size: 1.5rem; }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 0;
+    }
+    .hero-content {
+        padding: 0 20px;
+        order: 2; 
+
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+        color: #ccc;
+    }
+    .hero-image {
+        order: 1; 
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .product-grid,
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Bucle manual o automático para móvil */
+    .product-grid .product-card:nth-child(n) {
+        animation-delay: 0.2s; 
+    }
+
+    .category-item img {
+        height: 250px;
+        width: 250px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+    .footer-logo {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}
