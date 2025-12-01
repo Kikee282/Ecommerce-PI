@@ -1,0 +1,128 @@
+/* src/styles/stylesAuth.css */
+
+/* --- CONFIGURACIÓN GENERAL --- */
+body {
+    background-color: #fcfcfc; /* Fondo beige muy suave */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;     /* Centrado vertical */
+    min-height: 100vh;       /* Ocupa toda la altura de la pantalla */
+}
+
+/* --- TARJETA DE AUTENTICACIÓN --- */
+.auth-container {
+    background-color: white;
+    width: 100%;
+    max-width: 400px; /* Ancho contenido y elegante */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* Sombra suave de lujo */
+    border: 1px solid rgba(0,0,0,0.02);
+    text-align: center;
+}
+
+/* Logo */
+.auth-logo img {
+    height: 60px; /* Tamaño del logo */
+    margin-bottom: 20px;
+    object-fit: contain;
+}
+
+/* Títulos */
+h2 {
+    font-family: 'Georgia', serif;
+    font-size: 1.8rem;
+    font-weight: normal;
+    margin-bottom: 10px;
+    color: #111;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+/* --- FORMULARIO --- */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #fafafa;
+    box-sizing: border-box;
+    transition: all 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #222;
+    background-color: #fff;
+}
+
+/* Botón */
+.btn-auth {
+    width: 100%;
+    padding: 14px;
+    background-color: #222;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.btn-auth:hover {
+    background-color: #000;
+}
+
+/* Enlaces (Footer de la tarjeta) */
+.auth-footer {
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: #666;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.auth-footer a {
+    color: #222;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* --- MENSAJES DE REDIRECCIÓN / ERROR --- */
+.message-box {
+    text-align: center;
+}
+.success-icon { font-size: 3rem; color: #28a745; margin-bottom: 15px; display: block;}
+.error-icon { font-size: 3rem; color: #dc3545; margin-bottom: 15px; display: block;}

@@ -1,0 +1,118 @@
+/* src/styles/common.css */
+
+/* --- 1. CONFIGURACIÓ BASE --- */
+:root {
+    --font-main: 'Georgia', serif;
+    --font-ui: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --color-text: #333;
+    --color-bg: #fcfcfc;
+    --header-height: 120px;
+}
+
+body {
+    background-color: var(--color-bg);
+    font-family: var(--font-main);
+    color: var(--color-text);
+    margin: 0;
+    padding: 0;
+    /* Espai estàndard per a totes les pàgines perquè el header no tapi res */
+    padding-top: 120px; 
+}
+
+a { text-decoration: none; color: inherit; transition: color 0.2s; }
+ul { list-style: none; margin: 0; padding: 0; }
+img { max-width: 100%; display: block; }
+
+/* --- 2. HEADER FIX I UNIFICAT --- */
+.header-exacto {
+    background-color: white;
+    height: var(--header-height);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.header-logo-container img {
+    height: 40px;
+    object-fit: contain;
+}
+
+.header-right-side {
+    display: flex;
+    align-items: center;
+    gap: 40px; /* Separació entre menú i icones */
+}
+
+/* Menú Centrat (Absolut) */
+.nav-links-clean {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links-clean a {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: #333;
+}
+
+.nav-links-clean a:hover { color: #000; }
+
+.header-icons-clean {
+    display: flex;
+    gap: 20px;
+    font-size: 18px;
+}
+
+/* --- 3. FOOTER UNIFICAT --- */
+.main-footer {
+    background-color: #243020; /* Verd fosc corporatiu */
+    color: white;
+    padding: 60px 0;
+    margin-top: 80px;
+    font-family: var(--font-ui);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+}
+
+.footer-logo img { max-width: 160px; margin-bottom: 20px; }
+.footer-column { display: flex; flex-direction: column; }
+.footer-column h4 { font-size: 1.1rem; margin-bottom: 20px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
+.footer-column a, .footer-column p { color: #ccc; margin-bottom: 10px; font-size: 0.95rem; }
+.footer-column a:hover { color: white; text-decoration: underline; }
+.social-icons { display: flex; gap: 15px; }
+.social-icons a { font-size: 1.5rem; color: white; }
+
+/* --- 4. RESPONSIVE COMÚ --- */
+@media (max-width: 950px) {
+    body { padding-top: 0; }
+    .header-exacto { position: relative; height: auto; flex-direction: column; padding: 20px; gap: 15px; }
+    .nav-links-clean { position: static; transform: none; flex-direction: column; text-align: center; gap: 15px; }
+    .header-right-side { width: 100%; justify-content: center; }
+    .footer-grid { grid-template-columns: 1fr; text-align: center; }
+    .footer-logo { align-items: center; display: flex; justify-content: center; }
+    .social-icons { justify-content: center; }
+}

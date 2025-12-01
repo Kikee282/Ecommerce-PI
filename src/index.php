@@ -18,7 +18,8 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
     <title>Per L'Art - Joieria</title>
     
     <link rel="stylesheet" href="/styles/styleIndex.css?v=<?php echo time(); ?>">
-    
+    <link rel="stylesheet" href="./styles/common.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">

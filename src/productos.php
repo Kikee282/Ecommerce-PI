@@ -26,6 +26,7 @@ if (!$productes) $productes = [];
   <link rel="stylesheet" href="./styles/styleIndex.css">
   
   <link rel="stylesheet" href="./styles/stylesProductes.css">
+  <link rel="stylesheet" href="./styles/common.css">
 </head>
 <body>
 

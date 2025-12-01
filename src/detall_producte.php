@@ -3,13 +3,11 @@ session_start();
 $isLoggedIn = isset($_SESSION['user_id']);
 $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
 
-
-// Definimos las variables para pasarlas al script de abajo sin errores
+// --- 1. VARIABLES PER A JS ---
 $userId = $isLoggedIn ? json_encode($_SESSION['user_id']) : 'null';
-// Usamos json_encode para que el string sea seguro en JS (comillas, etc.)
 $jsUserName = $isLoggedIn ? json_encode($nombreUsuario) : 'null';
 $jsUserRole = $isLoggedIn ? json_encode($_SESSION['user_role'] ?? 'user') : '"guest"';
-// --------------------------------------------------
+// -----------------------------
 
 if (!isset($_GET['id'])) {
     header("Location: productos.php");
@@ -18,20 +16,21 @@ if (!isset($_GET['id'])) {
 
 $prodId = $_GET['id'];
 
-// API Request para obtener info del producto
+// --- 2. CONNEXIÓ AMB L'API (CORREGIDA) ---
+// Canviem cURL per file_get_contents que és més estable en el teu entorn
 $apiUrl = "http://jsonserver:3000/productes/" . $prodId;
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $apiUrl);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_TIMEOUT, 5); 
-$response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
 
+// La @ silencia errors PHP (warnings) per poder gestionar-los nosaltres
+$response = @file_get_contents($apiUrl);
 $producte = json_decode($response, true);
 
-if ($httpCode === 404 || !$producte) {
-    die("Producte no trobat.");
+// Si no hi ha resposta o el JSON no és vàlid, mostrem error
+if ($response === false || !$producte) {
+    die("<div style='text-align:center; padding:50px;'>
+            <h2>Producte no trobat</h2>
+            <p>No s'ha pogut connectar amb el servidor o l'ID no existeix.</p>
+            <a href='productos.php'>Tornar al catàleg</a>
+         </div>");
 }
 ?>
 
@@ -43,7 +42,8 @@ if ($httpCode === 404 || !$producte) {
     <title><?php echo htmlspecialchars($producte['nom']); ?> - Detall</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="./styles/stylesDetalle.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="./styles/stylesDetalle.css">
+    <link rel="stylesheet" href="./styles/common.css">
 </head>
 <body>
 
@@ -60,7 +60,7 @@ if ($httpCode === 404 || !$producte) {
                 <a href="#">Sobre nosaltres</a>
                 <a href="contacte.php">Contacte</a>
                 <?php if ($isLoggedIn): ?>
-                    <a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></a>
+                    <a href="./auth/profile.php" style="font-weight: bold;">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></a>
                     <a href="./auth/logout.php" style="color: red;">Tancar Sessió</a>
                 <?php else: ?>
                     <a href="./auth/login.html">Iniciar Sessió</a>
@@ -88,11 +88,16 @@ if ($httpCode === 404 || !$producte) {
                 
                 <div class="detail-info">
                     <h1 class="detail-title"><?php echo htmlspecialchars($producte['nom']); ?></h1>
-                    <div class="like-container" style="margin-bottom: 20px;">
-                        <button id="btnLike" class="btn-like" onclick="toggleLike()">
-                            <i class="far fa-heart"></i> </button>
-                        <span id="likeCount">0</span> M'agrada
+                    
+                    <div class="like-container" style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                        <button id="btnLike" class="btn-like" onclick="toggleLike()" style="background:none; border:none; cursor:pointer; font-size:1.5rem; color:#ccc;">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <span style="font-size: 0.9rem; color: #666;">
+                            <span id="likeCount">0</span> persones els agrada
+                        </span>
                     </div>
+
                     <p class="detail-sku">REF: <?php echo htmlspecialchars($producte['sku'] ?? 'GENERIC'); ?></p>
                     <div class="detail-price"><?php echo htmlspecialchars($producte['preu']); ?> €</div>
                     <div class="detail-desc">
@@ -145,7 +150,6 @@ if ($httpCode === 404 || !$producte) {
 
     <script>
         const currentProductId = <?php echo $prodId; ?>;
-        // Ahora sí funcionará porque las variables PHP existen
         const currentUser = {
             id: <?php echo $userId; ?>,
             nom: <?php echo $jsUserName; ?>,

@@ -43,10 +43,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // 4. Crear Cookie (segons requisits: 1 hora de durada)
         setcookie('user_id', $userFound['id'], time() + 3600, "/");
 
-        echo "Login correcte! Benvingut " . htmlspecialchars($userFound['nom']);
-        echo "<br><a href='../index.php'>Tornar a l'inici</a>";
-        // Opcional: header('Location: index.html');
-        
+        echo '<!DOCTYPE html>
+        <html lang="ca">
+        <head>
+            <meta charset="UTF-8">
+            <link rel="stylesheet" href="../styles/stylesAuth.css">
+            <meta http-equiv="refresh" content="2;url=../index.php"> 
+        </head>
+        <body>
+            <div class="auth-container">
+                <div class="message-box">
+                    <span style="font-size: 3rem;">✅</span>
+                    <h2>Benvingut, ' . htmlspecialchars($userFound['nom']) . '!</h2>
+                    <p class="subtitle">Has iniciat sessió correctament.</p>
+                    <p>Redirigint a la botiga...</p>
+                    <a href="../index.php" class="btn-auth" style="display:inline-block; text-decoration:none;">Anar ara</a>
+                </div>
+            </div>
+        </body>
+        </html>';
+        exit;
     } else {
         die("Error: Usuari o contrasenya incorrectes.");
     }

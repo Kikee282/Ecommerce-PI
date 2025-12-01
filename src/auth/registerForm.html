@@ -2,29 +2,55 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <title>Registre</title>
-    <link rel="stylesheet" href="./styles/styleIndex.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registre - Per L'Art</title>
+    <link rel="stylesheet" href="../styles/stylesAuth.css">
 </head>
 <body>
-    <form id="registerForm" method="POST" action="register.php">
-        <h3>Registra't</h3>
-        
-        <label>Nom d'usuari *</label>
-        <input type="text" name="nom_usuari" required>
 
-        <label>Nom *</label>
-        <input type="text" name="nom" required>
+    <div class="auth-container">
+        <div class="auth-logo">
+            <a href="../index.php">
+                <img src="../contenido/logoParteArriba.png" alt="Logo Per L'Art">
+            </a>
+        </div>
 
-        <label>Cognoms</label>
-        <input type="text" name="cognoms">
+        <h2>Crear Compte</h2>
+        <p class="subtitle">Uneix-te a la nostra comunitat</p>
 
-        <label>Email *</label>
-        <input type="email" name="email" required>
+        <form action="register.php" method="POST">
+            <div class="form-group">
+                <label for="nom_usuari">Nom d'usuari *</label>
+                <input type="text" name="nom_usuari" required>
+            </div>
 
-        <label>Contrasenya *</label>
-        <input type="password" name="password" required>
+            <div class="form-group">
+                <label for="nom">Nom *</label>
+                <input type="text" name="nom" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="cognoms">Cognoms</label>
+                <input type="text" name="cognoms">
+            </div>
 
-        <button type="submit" class="btn">Registrar</button>
-    </form>
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contrasenya *</label>
+                <input type="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn-auth">Registrar-se</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Ja tens compte? <a href="login.html">Inicia sessió</a></p>
+        </div>
+    </div>
+
 </body>
 </html>

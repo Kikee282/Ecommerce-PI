@@ -1,3 +1,5 @@
+// src/js/comentarios.js
+
 document.addEventListener('DOMContentLoaded', () => {
     carregarComentaris();
     const form = document.getElementById('formComentari');
@@ -25,22 +27,17 @@ async function carregarComentaris() {
 
             // --- LÒGICA DE PERMISOS ---
             let accions = '';
-            // Convertim a string per seguretat en la comparació
             const esMeu = currentUser.id && String(c.userId) === String(currentUser.id);
             const socAdmin = currentUser.role === 'admin';
 
-            // Botó ESBORRAR: Si és meu O sóc admin
+            // Botón BORRAR (Con comillas en el ID)
             if (esMeu || socAdmin) {
-                accions += `<button onclick="esborrar(${c.id})" style="color:red; border:none; background:none; cursor:pointer; margin-left:10px;" title="Esborrar"><i class="fas fa-trash"></i></button>`;
+                accions += `<button onclick="esborrar('${c.id}')" style="color:red; border:none; background:none; cursor:pointer; margin-left:10px;" title="Esborrar"><i class="fas fa-trash"></i></button>`;
             }
             
-            // Botó EDITAR: 
-            // - Si vols que NOMÉS l'usuari editi el seu: if (esMeu)
-            // - Si vols que l'admin TAMBÉ editi: if (esMeu || socAdmin)
+            // Botón EDITAR (MEJORA: Solo pasamos el ID, sin texto)
             if (esMeu || socAdmin) { 
-                // Nota: Escapem les cometes simples del text per no trencar el JS
-                const textEscapat = c.text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                accions += `<button onclick="editar(${c.id}, '${textEscapat}')" style="color:blue; border:none; background:none; cursor:pointer; margin-left:5px;" title="Editar"><i class="fas fa-pen"></i></button>`;
+                accions += `<button onclick="editar('${c.id}')" style="color:blue; border:none; background:none; cursor:pointer; margin-left:5px;" title="Editar"><i class="fas fa-pen"></i></button>`;
             }
 
             const div = document.createElement('div');
@@ -53,7 +50,7 @@ async function carregarComentaris() {
                         ${accions}
                     </div>
                 </div>
-                <div class="comment-body" id="body-${c.id}">${c.text}</div>
+                <div class="comment-body" id="comentari-text-${c.id}">${c.text}</div>
             `;
             container.appendChild(div);
         });
@@ -61,40 +58,46 @@ async function carregarComentaris() {
     } catch (error) { console.error(error); }
 }
 
-// --- FUNCIONS D'ACCIÓ ---
+// --- FUNCIONES D'ACCIÓ ---
 
 async function esborrar(id) {
     if (!confirm("Segur que vols esborrar aquest comentari?")) return;
     
-    const response = await fetch(`./api_comentarios.php?id=${id}`, { method: 'DELETE' });
-    
-    if (response.ok) {
-        carregarComentaris(); // Recargar lista
-    } else {
-        alert("Error: No tens permís o ha fallat la connexió.");
-    }
+    try {
+        const response = await fetch(`./api_comentarios.php?id=${id}`, { method: 'DELETE' });
+        if (response.ok) {
+            carregarComentaris();
+        } else {
+            alert("Error: No tens permís o ha fallat la connexió.");
+        }
+    } catch (e) { console.error(e); }
 }
 
-async function editar(id, textActual) {
-    // Decodificar comillas simples para que no rompa el prompt
-    const textNet = textActual.replace(/\\'/g, "'");
-    const nouText = prompt("Edita el teu comentari:", textNet);
+async function editar(id) {
+    // 1. Recuperamos el texto actual directamente del HTML (más seguro que pasarlo por parámetros)
+    const elementoTexto = document.getElementById(`comentari-text-${id}`);
+    const textActual = elementoTexto ? elementoTexto.innerText : "";
+
+    // 2. Pedimos el nuevo texto
+    const nouText = prompt("Edita el teu comentari:", textActual);
     
-    if (nouText === null || nouText === textNet) return; // Cancelado o igual
+    // Si cancela o lo deja igual, no hacemos nada
+    if (nouText === null || nouText === textActual) return; 
 
-    const response = await fetch('./api_comentarios.php', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id, text: nouText })
-    });
+    try {
+        const response = await fetch('./api_comentarios.php', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id, text: nouText })
+        });
 
-    if (response.ok) {
-        carregarComentaris();
-    } else {
-        alert("Error en editar.");
-    }
+        if (response.ok) {
+            carregarComentaris();
+        } else {
+            alert("Error en editar: Només pots editar els teus propis comentaris.");
+        }
+    } catch (e) { console.error(e); }
 }
-
 
 async function enviarComentariDirecte(e) {
     e.preventDefault();
@@ -102,17 +105,26 @@ async function enviarComentariDirecte(e) {
 
     const text = document.getElementById('textComentari').value;
     const puntuacio = document.getElementById('puntuacio').value;
+    const btn = document.querySelector('.btn-submit-comment');
+    
+    btn.disabled = true;
 
-    const res = await fetch('./api_comentarios.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId: currentProductId, text, puntuacio })
-    });
+    try {
+        const res = await fetch('./api_comentarios.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productId: currentProductId, text, puntuacio })
+        });
 
-    if (res.ok) {
-        document.getElementById('textComentari').value = '';
-        carregarComentaris();
-    } else {
-        alert("Error enviant comentari");
+        if (res.ok) {
+            document.getElementById('textComentari').value = '';
+            carregarComentaris();
+        } else {
+            alert("Error enviant comentari");
+        }
+    } catch (e) {
+        console.error(e);
+    } finally {
+        btn.disabled = false;
     }
 }

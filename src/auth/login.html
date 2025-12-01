@@ -2,22 +2,41 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar Sessió</title>
-    <link rel="stylesheet" href="./styles/styleIndex.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sessió - Per L'Art</title>
+    <link rel="stylesheet" href="../styles/stylesAuth.css"> 
 </head>
 <body>
-    
-    <form id="loginForm" method="POST" action="login.php">
-        <h3>Inicia sessió</h3>
-        
-        <label>Nom d'usuari</label>
-        <input type="text" name="nom_usuari" required>
 
-        <label>Contrasenya</label>
-        <input type="password" name="password" required>
+    <div class="auth-container">
+        <div class="auth-logo">
+            <a href="../index.php">
+                <img src="../contenido/logoParteArriba.png" alt="Logo Per L'Art">
+            </a>
+        </div>
 
-        <button type="submit" class="btn">Entrar</button>
-    </form>
-    <p>No tens compte? <a href="registerForm.html">Registra't!</a></p>
+        <h2>Benvingut de nou</h2>
+        <p class="subtitle">Introdueix les teves credencials per accedir</p>
+
+        <form action="login.php" method="POST">
+            <div class="form-group">
+                <label for="nom_usuari">Usuari</label>
+                <input type="text" id="nom_usuari" name="nom_usuari" required placeholder="Ex: guillem">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contrasenya</label>
+                <input type="password" id="password" name="password" required placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="btn-auth">Entrar</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>No tens compte? <a href="registerForm.html">Registra't aquí</a></p>
+            <p style="margin-top: 10px;"><a href="../index.php">Tornar a la botiga</a></p>
+        </div>
+    </div>
+
 </body>
 </html>
