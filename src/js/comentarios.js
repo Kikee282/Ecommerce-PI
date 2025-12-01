@@ -1,146 +1,112 @@
-// src/js/comentarios.js
-
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Carregar comentaris existents
     carregarComentaris();
-
-    // 2. Configurar el formulari (si existeix)
     const form = document.getElementById('formComentari');
-    if (form) {
-        form.addEventListener('submit', enviarComentariDirecte);
-    }
+    if (form) form.addEventListener('submit', enviarComentariDirecte);
 });
 
-// --- GET: Carregar comentaris ---
 async function carregarComentaris() {
     const container = document.getElementById('llista-comentaris');
-    
     try {
-        // Correcte: Utilitzem el pont PHP per a llegir
         const response = await fetch(`./api_comentarios.php?productId=${currentProductId}`);
-        
         if (!response.ok) throw new Error('Error de connexió');
-        
         const comentaris = await response.json();
 
         container.innerHTML = '';
-
         if (comentaris.length === 0) {
             container.innerHTML = '<p style="color:#777; font-style:italic;">Sigues el primer a comentar!</p>';
             return;
         }
 
         comentaris.forEach(c => {
-            let botoEsborrar = '';
-            // IMPORTANTE: Asegúrate de que comparas strings con strings
-            if (currentUser.id && String(c.userId) === String(currentUser.id)) {
-                botoEsborrar = `<button class="btn-delete-comment" onclick="esborrarComentari(${c.id})">Esborrar</button>`;
-            }
-
-            // HTML
-            div.innerHTML = `
-                <div class="comment-header">
-                    <span>${c.nom_usuari} ...</span>
-                    ${botoEsborrar} </div>
-                ...
-            `;
             const dateObj = new Date(c.data);
             const dataFormatada = dateObj.toLocaleDateString('ca-ES');
-            
-            // Gestió de la puntuació
             const rating = c.puntuacio || 0;
             const estrelles = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+
+            // --- LÒGICA DE PERMISOS ---
+            let accions = '';
+            const esMeu = currentUser.id && String(c.userId) === String(currentUser.id);
+            const socAdmin = currentUser.role === 'admin';
+
+            if (esMeu || socAdmin) {
+                // Botó Esborrar (Amo o Admin)
+                accions += `<button onclick="esborrar(${c.id})" style="color:red; border:none; background:none; cursor:pointer; margin-left:10px;"><i class="fas fa-trash"></i></button>`;
+            }
+            if (esMeu) {
+                // Botó Editar (Només Amo)
+                accions += `<button onclick="editar(${c.id}, '${c.text.replace(/'/g, "\\'")}')" style="color:blue; border:none; background:none; cursor:pointer; margin-left:10px;"><i class="fas fa-pen"></i></button>`;
+            }
 
             const div = document.createElement('div');
             div.className = 'comment';
             div.innerHTML = `
-                <div class="comment-header">
-                    <span>${c.nom_usuari} <span style="color:#f39c12; margin-left:5px;">${estrelles}</span></span>
-                    <span class="comment-date">${dataFormatada}</span>
+                <div class="comment-header" style="display:flex; justify-content:space-between;">
+                    <span>${c.nom_usuari} <span style="color:#f39c12;">${estrelles}</span></span>
+                    <div>
+                        <span class="comment-date">${dataFormatada}</span>
+                        ${accions}
+                    </div>
                 </div>
-                <div class="comment-body">
-                    ${c.text}
-                </div>
+                <div class="comment-body" id="body-${c.id}">${c.text}</div>
             `;
             container.appendChild(div);
         });
 
-    } catch (error) {
-        console.error('Error:', error);
-        container.innerHTML = '<p style="color:red;">Error carregant comentaris.</p>';
+    } catch (error) { console.error(error); }
+}
+
+// --- FUNCIONS D'ACCIÓ ---
+
+async function esborrar(id) {
+    if (!confirm("Segur que vols esborrar aquest comentari?")) return;
+    
+    const response = await fetch(`./api_comentarios.php?id=${id}`, { method: 'DELETE' });
+    
+    if (response.ok) {
+        carregarComentaris(); // Recargar lista
+    } else {
+        alert("Error: No tens permís o ha fallat la connexió.");
     }
 }
 
-// --- POST: Enviar nou comentari ---
+async function editar(id, textActual) {
+    // Decodificar comillas simples para que no rompa el prompt
+    const textNet = textActual.replace(/\\'/g, "'");
+    const nouText = prompt("Edita el teu comentari:", textNet);
+    
+    if (nouText === null || nouText === textNet) return; // Cancelado o igual
+
+    const response = await fetch('./api_comentarios.php', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id, text: nouText })
+    });
+
+    if (response.ok) {
+        carregarComentaris();
+    } else {
+        alert("Error en editar.");
+    }
+}
+
+
 async function enviarComentariDirecte(e) {
     e.preventDefault();
-
-    // Validació de seguretat bàsica (tot i que el PHP també ho comprova)
-    if (!currentUser.id) {
-        alert("Error: No estàs identificat.");
-        return;
-    }
+    if (!currentUser.id) return alert("Error: No identificat");
 
     const text = document.getElementById('textComentari').value;
-    const puntuacio = parseInt(document.getElementById('puntuacio').value);
-    const btn = document.querySelector('.btn-submit-comment');
+    const puntuacio = document.getElementById('puntuacio').value;
 
-    btn.disabled = true;
-    btn.innerText = "Enviant...";
+    const res = await fetch('./api_comentarios.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId: currentProductId, text, puntuacio })
+    });
 
-    // Dades a enviar
-    // Nota: El PHP s'encarregarà de verificar l'usuari i la data reals per seguretat.
-    // Només cal enviar el text, la puntuació i l'ID del producte.
-    const dadesEnviament = {
-        productId: currentProductId,
-        text: text,
-        puntuacio: puntuacio
-    };
-
-    try {
-        // CORRECCIÓ CLAU: Enviem al pont PHP, no directament al port 3000
-        const response = await fetch('./api_comentarios.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(dadesEnviament)
-        });
-
-        if (!response.ok) {
-            // Intentem llegir el missatge d'error del PHP
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.error || 'Error guardant el comentari');
-        }
-
-        // Èxit!
-        document.getElementById('textComentari').value = ''; // Netejar camp
-        alert('Comentari publicat!');
-        carregarComentaris(); // Recarregar la llista a l'instant
-
-    } catch (error) {
-        console.error(error);
-        alert('Error: ' + error.message);
-    } finally {
-        btn.disabled = false;
-        btn.innerText = "Publicar Comentari";
-    }
-}
-
-async function esborrarComentari(idComentari) {
-    if(!confirm("Estàs segur d'esborrar aquest comentari?")) return;
-
-    try {
-        const response = await fetch(`./api_comentarios.php?id=${idComentari}`, {
-            method: 'DELETE'
-        });
-        
-        if (response.ok) {
-            carregarComentaris(); // Recargar lista
-        } else {
-            alert("No tens permís o ha hagut un error.");
-        }
-    } catch (e) {
-        console.error(e);
+    if (res.ok) {
+        document.getElementById('textComentari').value = '';
+        carregarComentaris();
+    } else {
+        alert("Error enviant comentari");
     }
 }

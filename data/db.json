@@ -70,5 +70,16 @@
       "data": "2025-12-01T11:05:59+00:00"
     }
   ],
-  "likes": []
+  "likes": [
+    {
+      "id": "378e",
+      "productId": 1,
+      "userId": "18f7"
+    },
+    {
+      "id": "dc6a",
+      "productId": 1,
+      "userId": "fbb6"
+    }
+  ]
 }

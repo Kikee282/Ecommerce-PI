@@ -4,11 +4,11 @@ $isLoggedIn = isset($_SESSION['user_id']);
 $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
 
 
-// --- LÍNEAS QUE FALTABAN (CRUCIALES PARA EL JS) ---
 // Definimos las variables para pasarlas al script de abajo sin errores
 $userId = $isLoggedIn ? json_encode($_SESSION['user_id']) : 'null';
 // Usamos json_encode para que el string sea seguro en JS (comillas, etc.)
 $jsUserName = $isLoggedIn ? json_encode($nombreUsuario) : 'null';
+$jsUserRole = $isLoggedIn ? json_encode($_SESSION['user_role'] ?? 'user') : '"guest"';
 // --------------------------------------------------
 
 if (!isset($_GET['id'])) {
@@ -61,7 +61,7 @@ if ($httpCode === 404 || !$producte) {
                 <a href="contacte.php">Contacte</a>
                 <?php if ($isLoggedIn): ?>
                     <a href="./auth/profile.php" style="font-weight: bold;"><?php echo htmlspecialchars($nombreUsuario); ?></a>
-                    <a href="logout.php" style="color: red;">Tancar Sessió</a>
+                    <a href="./auth/logout.php" style="color: red;">Tancar Sessió</a>
                 <?php else: ?>
                     <a href="./auth/login.html">Iniciar Sessió</a>
                 <?php endif; ?>
@@ -149,9 +149,10 @@ if ($httpCode === 404 || !$producte) {
         const currentUser = {
             id: <?php echo $userId; ?>,
             nom: <?php echo $jsUserName; ?>
+            role: <?php echo $jsUserRole; ?>
         };
     </script>
-    
+
     <script src="./js/likes.js?v=<?php echo time(); ?>"></script>
     <script src="./js/comentarios.js?v=<?php echo time(); ?>"></script>
 </body>

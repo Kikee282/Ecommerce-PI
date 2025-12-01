@@ -37,6 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $userFound['id'];
         $_SESSION['user_name'] = $userFound['nom_usuari'];
         $_SESSION['user_real_name'] = $userFound['nom'];
+        $_SESSION['user_role'] = $userFound['role'] ?? 'user'; 
+        setcookie('user_id', $userFound['id'], time() + 3600, "/");
 
         // 4. Crear Cookie (segons requisits: 1 hora de durada)
         setcookie('user_id', $userFound['id'], time() + 3600, "/");
