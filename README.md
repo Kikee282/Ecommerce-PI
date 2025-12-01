@@ -6,7 +6,7 @@ El sistema està dissenyat per a gestionar tant la part pública (la vista del c
 
 Documentació:<br>
 <a href="https://github.com/E-Commerce-Kike-Guillem/Ecommerce-PI/blob/main/Documentaci%C3%B3/Diagrama%20de%20Gantt%20E-Commerce.pdf">Diagrama de Gantt E-Commerce</a><br>
-<a href="https://github.com/E-Commerce-Kike-Guillem/Ecommerce-PI/blob/main/Documentaci%C3%B3/Mem%C3%B2ria%20Sprint%201.pdf">Memòria Sprint 1</a><br>
+<a href="https://github.com/E-Commerce-Kike-Guillem/Ecommerce-PI/blob/sprint-2/Documentaci%C3%B3/Mem%C3%B2ria%20Sprint%201.pdf">Memòria Sprint 1</a><br>
 <a href="https://github.com/E-Commerce-Kike-Guillem/Ecommerce-PI/blob/sprint-2/Documentaci%C3%B3/Planificaci%C3%B3%20inicial.pdf">Planificació inicial</a><br>
 <a href="https://github.com/E-Commerce-Kike-Guillem/Ecommerce-PI/blob/sprint-2/Documentaci%C3%B3/Planificaci%C3%B3%20sprint-2.pdf">Planificació Sprint 2</a><br>
 <a href="https://github.com/E-Commerce-Kike-Guillem/Ecommerce-PI/blob/sprint-2/Documentaci%C3%B3/Planificaci%C3%B3%20sprint-2.pdf">Documentació Desplegament de l'aplicació</a><br>
