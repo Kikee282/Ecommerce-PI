@@ -39,6 +39,15 @@
       "cognoms": "Ordiñana",
       "data_registre": "2025-11-27T16:35:42+00:00",
       "role": "user"
+    },
+    {
+      "id": "f60a",
+      "nom_usuari": "kike",
+      "contrasenya": "$2y$10$hlf.DMKjNe/X1xDioIeaD.8MdXkR4hePgd/rIaBz8GHtst/wFkV2a",
+      "email": "kikenavarrojover@gmail.com",
+      "nom": "Kike",
+      "cognoms": "Navarro Jover",
+      "data_registre": "2025-12-01T15:23:03+00:00"
     }
   ],
   "comentaris": [
