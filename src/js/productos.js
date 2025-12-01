@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function cargarProductos() {
         try {
             // Petición al JSON Server (desde el navegador del cliente es localhost)
-            const response = await fetch('http://localhost:3000/productes');
+            const response = await fetch('./api_productes.php');
             
             if (!response.ok) {
                 throw new Error('Error al conectar con la API');

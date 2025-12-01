@@ -100,5 +100,6 @@ if (!$productes) $productes = [];
         </div>
     </footer>
     </main>
+    <script src="./js/productos.js"></script>
 </body>
 </html>

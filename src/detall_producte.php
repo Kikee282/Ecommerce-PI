@@ -3,7 +3,14 @@ session_start();
 $isLoggedIn = isset($_SESSION['user_id']);
 $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
 
-// 1. Validar que tenim un ID
+
+// --- LÍNEAS QUE FALTABAN (CRUCIALES PARA EL JS) ---
+// Definimos las variables para pasarlas al script de abajo sin errores
+$userId = $isLoggedIn ? $_SESSION['user_id'] : 'null';
+// Usamos json_encode para que el string sea seguro en JS (comillas, etc.)
+$jsUserName = $isLoggedIn ? json_encode($nombreUsuario) : 'null';
+// --------------------------------------------------
+
 if (!isset($_GET['id'])) {
     header("Location: productos.php");
     exit;
@@ -11,36 +18,20 @@ if (!isset($_GET['id'])) {
 
 $prodId = $_GET['id'];
 
-// 2. Preparar la connexió amb l'API
+// API Request para obtener info del producto
 $apiUrl = "http://jsonserver:3000/productes/" . $prodId;
-
-// 3. Executar la petició al servidor (CURL)
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $apiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_TIMEOUT, 5); 
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-$curlError = curl_error($ch); 
 curl_close($ch);
 
-// 4. Intentar llegir les dades
 $producte = json_decode($response, true);
 
-// --- BLOC DE DEPURACIÓ (DEBUG) ---
-// Si alguna cosa va malament, mostrem les dades tècniques aquí
-if ($httpCode !== 200 || empty($producte)) {
-    echo "<div style='background: #ffe6e6; border: 1px solid red; padding: 20px; margin: 20px; font-family: monospace;'>";
-    echo "<h2 style='color: red; margin-top: 0;'>⚠️ Error de Depuració</h2>";
-    echo "<strong>ID Sol·licitat:</strong> " . htmlspecialchars($prodId) . "<br>";
-    echo "<strong>URL API Cridada:</strong> " . htmlspecialchars($apiUrl) . "<br>";
-    echo "<strong>Codi HTTP Resposta:</strong> " . $httpCode . "<br>";
-    echo "<strong>Error cURL (Xarxa):</strong> " . ($curlError ? $curlError : "Cap") . "<br>";
-    echo "<strong>Resposta RAW del Servidor:</strong><br>";
-    echo "<pre style='background: #fff; padding: 10px; border: 1px solid #ccc;'>" . htmlspecialchars($response ?? '') . "</pre>";
-    echo "<br><a href='productos.php'>Tornar enrere</a>";
-    echo "</div>";
-    die(); // Aturem la pàgina aquí per veure l'error
+if ($httpCode === 404 || !$producte) {
+    die("Producte no trobat.");
 }
 ?>
 
@@ -52,7 +43,6 @@ if ($httpCode !== 200 || empty($producte)) {
     <title><?php echo htmlspecialchars($producte['nom']); ?> - Detall</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <link rel="stylesheet" href="./styles/stylesDetalle.css">
 </head>
 <body>
@@ -70,23 +60,21 @@ if ($httpCode !== 200 || empty($producte)) {
                 <a href="#">Sobre nosaltres</a>
                 <a href="contacte.php">Contacte</a>
                 <?php if ($isLoggedIn): ?>
-                    <a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></a>
-                    <a href="./auth/logout.php" style="color: red;">Tancar Sessió</a>
-                    <?php else: ?>
+                    <a href="./auth/profile.php" style="font-weight: bold;">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></a>
+                    <a href="logout.php" style="color: red;">Tancar Sessió</a>
+                <?php else: ?>
                     <a href="./auth/login.html">Iniciar Sessió</a>
-                    <?php endif; ?>
+                <?php endif; ?>
             </nav>
-            <?php if ($isLoggedIn): ?>
+
             <div class="header-icons-clean">
-                <a href="./auth/profile.php"><i class="fas fa-user"></i></a>
+                <?php if ($isLoggedIn): ?>
+                    <a href="./auth/profile.php"><i class="fas fa-user"></i></a>
+                <?php else: ?>
+                    <a href="./auth/login.html"><i class="fas fa-user"></i></a>
+                <?php endif; ?>
                 <a href="#"><i class="fas fa-shopping-basket"></i></a>
             </div>
-            <?php else: ?>
-              <div class="header-icons-clean">
-                <a href="./auth/login.html"><i class="fas fa-user"></i></a>
-                <a href="#"><i class="fas fa-shopping-basket"></i></a>
-            </div>
-            <?php endif; ?>
         </div>
     </header>
 
@@ -101,23 +89,47 @@ if ($httpCode !== 200 || empty($producte)) {
                 <div class="detail-info">
                     <h1 class="detail-title"><?php echo htmlspecialchars($producte['nom']); ?></h1>
                     <p class="detail-sku">REF: <?php echo htmlspecialchars($producte['sku'] ?? 'GENERIC'); ?></p>
-                    
                     <div class="detail-price"><?php echo htmlspecialchars($producte['preu']); ?> €</div>
-                    
                     <div class="detail-desc">
                         <p><?php echo htmlspecialchars($producte['descripcio']); ?></p>
                     </div>
-                    
                     <p>Estoc disponible: <strong><?php echo $producte['estoc']; ?></strong></p>
-                    
-                    <button class="btn-add-cart" onclick="alert('Afegit al carret!')">
-                        Afegir al Carret
-                    </button>
+                    <button class="btn-add-cart" onclick="alert('Afegit al carret!')">Afegir al Carret</button>
                 </div>
             </div>
 
             <div class="comments-section">
                 <h2>Comentaris</h2>
+
+                <?php if ($isLoggedIn): ?>
+                    <div class="comment-form-container">
+                        <h3>Deixa la teva opinió</h3>
+                        <form id="formComentari">
+                            <div class="form-row">
+                                <label for="puntuacio">Valoració:</label>
+                                <select id="puntuacio" class="select-rating">
+                                    <option value="5">★★★★★ (Excel·lent)</option>
+                                    <option value="4">★★★★ (Molt bo)</option>
+                                    <option value="3">★★★ (Correcte)</option>
+                                    <option value="2">★★ (Regular)</option>
+                                    <option value="1">★ (Dolent)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-row">
+                                <label for="textComentari">Comentari:</label>
+                                <textarea id="textComentari" class="input-comment" placeholder="Escriu aquí..." required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn-submit-comment">Publicar</button>
+                        </form>
+                    </div>
+                <?php else: ?>
+                    <div class="login-notice">
+                        <p><a href="./auth/login.html">Inicia sessió</a> per a deixar un comentari.</p>
+                    </div>
+                <?php endif; ?>
+
                 <div id="llista-comentaris">
                     <p>Carregant comentaris...</p>
                 </div>
@@ -128,46 +140,13 @@ if ($httpCode !== 200 || empty($producte)) {
 
     <script>
         const currentProductId = <?php echo $prodId; ?>;
-
-        async function carregarComentaris() {
-            const container = document.getElementById('llista-comentaris');
-            try {
-                // Nota: Des del navegador client, accedim a 'localhost', no 'jsonserver'
-                const response = await fetch(`http://localhost:3000/comentaris?productId=${currentProductId}`);
-                
-                if (!response.ok) throw new Error('Error de xarxa');
-                
-                const comentaris = await response.json();
-
-                container.innerHTML = '';
-
-                if (comentaris.length === 0) {
-                    container.innerHTML = '<p style="color:#777; font-style:italic;">Encara no hi ha comentaris per a aquest producte.</p>';
-                    return;
-                }
-
-                comentaris.forEach(c => {
-                    const dataFormatada = new Date(c.data).toLocaleDateString('ca-ES');
-                    const div = document.createElement('div');
-                    div.className = 'comment';
-                    div.innerHTML = `
-                        <div class="comment-header">
-                            ${c.nom_usuari} <span class="comment-date">${dataFormatada}</span>
-                        </div>
-                        <div class="comment-body">
-                            ${c.text}
-                        </div>
-                    `;
-                    container.appendChild(div);
-                });
-
-            } catch (error) {
-                console.error('Error:', error);
-                container.innerHTML = '<p style="color:red;">Error carregant comentaris. Revisa que el JSON Server funcioni al port 3000.</p>';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', carregarComentaris);
+        // Ahora sí funcionará porque las variables PHP existen
+        const currentUser = {
+            id: <?php echo $userId; ?>,
+            nom: <?php echo $jsUserName; ?>
+        };
     </script>
+
+    <script src="./js/comentarios.js"></script>
 </body>
 </html>
