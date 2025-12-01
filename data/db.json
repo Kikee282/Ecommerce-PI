@@ -52,15 +52,6 @@
   ],
   "comentaris": [
     {
-      "id": "1",
-      "productId": 1,
-      "userId": "100",
-      "nom_usuari": "ClientProva",
-      "text": "M'encanta aquest anell, és preciós!",
-      "puntuacio": 5,
-      "data": "2023-11-18T10:00:00Z"
-    },
-    {
       "id": "9c0f",
       "productId": 1,
       "userId": "18f7",
@@ -81,14 +72,14 @@
   ],
   "likes": [
     {
-      "id": "378e",
-      "productId": 1,
-      "userId": "18f7"
-    },
-    {
-      "id": "dc6a",
+      "id": "a1f6",
       "productId": 1,
       "userId": "fbb6"
+    },
+    {
+      "id": "bf1b",
+      "productId": 1,
+      "userId": "18f7"
     }
   ]
 }

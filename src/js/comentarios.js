@@ -25,16 +25,22 @@ async function carregarComentaris() {
 
             // --- LÒGICA DE PERMISOS ---
             let accions = '';
+            // Convertim a string per seguretat en la comparació
             const esMeu = currentUser.id && String(c.userId) === String(currentUser.id);
             const socAdmin = currentUser.role === 'admin';
 
+            // Botó ESBORRAR: Si és meu O sóc admin
             if (esMeu || socAdmin) {
-                // Botó Esborrar (Amo o Admin)
-                accions += `<button onclick="esborrar(${c.id})" style="color:red; border:none; background:none; cursor:pointer; margin-left:10px;"><i class="fas fa-trash"></i></button>`;
+                accions += `<button onclick="esborrar(${c.id})" style="color:red; border:none; background:none; cursor:pointer; margin-left:10px;" title="Esborrar"><i class="fas fa-trash"></i></button>`;
             }
-            if (esMeu) {
-                // Botó Editar (Només Amo)
-                accions += `<button onclick="editar(${c.id}, '${c.text.replace(/'/g, "\\'")}')" style="color:blue; border:none; background:none; cursor:pointer; margin-left:10px;"><i class="fas fa-pen"></i></button>`;
+            
+            // Botó EDITAR: 
+            // - Si vols que NOMÉS l'usuari editi el seu: if (esMeu)
+            // - Si vols que l'admin TAMBÉ editi: if (esMeu || socAdmin)
+            if (esMeu || socAdmin) { 
+                // Nota: Escapem les cometes simples del text per no trencar el JS
+                const textEscapat = c.text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                accions += `<button onclick="editar(${c.id}, '${textEscapat}')" style="color:blue; border:none; background:none; cursor:pointer; margin-left:5px;" title="Editar"><i class="fas fa-pen"></i></button>`;
             }
 
             const div = document.createElement('div');

@@ -3,15 +3,18 @@
 session_start();
 header('Content-Type: application/json');
 
+// URL base interna de Docker
 $baseUrl = "http://jsonserver:3000/comentaris";
 $userId = $_SESSION['user_id'] ?? null;
-$userRole = $_SESSION['user_role'] ?? 'user';
+// Obtenemos el rol de la sesión (asegúrate de que login.php lo guarda)
+$userRole = $_SESSION['user_role'] ?? 'user'; 
 
 // --- 1. LLEGIR (GET) ---
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $productId = $_GET['productId'] ?? null;
     if (!$productId) exit(json_encode([]));
     
+    // Usamos @ para evitar warnings si falla la conexión
     echo @file_get_contents($baseUrl . "?productId=" . $productId . "&_sort=data&_order=desc") ?: json_encode([]);
     exit;
 }
@@ -21,8 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$userId) { http_response_code(401); exit(json_encode(['error' => 'No loguejat'])); }
     
     $input = json_decode(file_get_contents('php://input'), true);
-    // ... (Validacions igual que abans) ...
-    if (empty($input['text'])) exit;
+    if (empty($input['text'])) { http_response_code(400); exit; }
 
     $nuevo = [
         'productId' => (int)$input['productId'],
@@ -39,30 +41,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // --- 3. ESBORRAR (DELETE) ---
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    $userId = $_SESSION['user_id'] ?? null;
-    $userRole = $_SESSION['user_role'] ?? 'user'; // Leemos el rol de la sesión
-
     if (!$userId) { http_response_code(401); exit; }
 
     $idComentari = $_GET['id'] ?? null;
-    
-    // Obtenemos el comentario para ver de quién es
-    $comentari = json_decode(@file_get_contents("http://jsonserver:3000/comentaris/$idComentari"), true);
+    if (!$idComentari) exit;
+
+    // A. Obtenim el comentari per veure de qui és
+    $comentari = json_decode(@file_get_contents("$baseUrl/$idComentari"), true);
     
     if (!$comentari) { http_response_code(404); exit; }
 
-    // PERMISOS: ¿Es mío O soy Admin?
+    // B. PERMISOS: Puc esborrar si sóc l'amo O sóc Admin
     if ((string)$comentari['userId'] === (string)$userId || $userRole === 'admin') {
-        
-        // Enviamos DELETE al JSON Server
-        $ch = curl_init("http://jsonserver:3000/comentaris/$idComentari");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-        curl_exec($ch);
-        curl_close($ch);
-        echo json_encode(['status' => 'deleted']);
-        
+        enviarPeticio("$baseUrl/$idComentari", 'DELETE');
     } else {
-        http_response_code(403); // Prohibido
+        http_response_code(403);
         echo json_encode(['error' => 'No tens permís']);
     }
     exit;
@@ -70,38 +63,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
 
 // --- 4. EDITAR (PUT) ---
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    $userId = $_SESSION['user_id'] ?? null;
+    if (!$userId) { http_response_code(401); exit; }
+
     $input = json_decode(file_get_contents('php://input'), true);
     $idComentari = $input['id'] ?? null;
+    
+    // A. Obtenim original
+    $comentariOriginal = json_decode(@file_get_contents("$baseUrl/$idComentari"), true);
 
-    // Obtenemos original
-    $comentariOriginal = json_decode(@file_get_contents("http://jsonserver:3000/comentaris/$idComentari"), true);
+    if (!$comentariOriginal) { http_response_code(404); exit; }
 
-    // Solo el dueño puede editar texto
+    // B. PERMISOS: Només l'amo pot editar el text
     if ((string)$comentariOriginal['userId'] === (string)$userId) {
-        // Actualizamos campos
         $comentariOriginal['text'] = htmlspecialchars($input['text']);
         $comentariOriginal['data'] = date('c');
-
-        // Enviamos PUT
-        $ch = curl_init("http://jsonserver:3000/comentaris/$idComentari");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($comentariOriginal));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        curl_exec($ch);
-        curl_close($ch);
-        echo json_encode(['status' => 'updated']);
+        enviarPeticio("$baseUrl/$idComentari", 'PUT', $comentariOriginal);
     } else {
         http_response_code(403);
+        echo json_encode(['error' => 'Només pots editar els teus comentaris']);
     }
     exit;
 }
 
-// Funció auxiliar per no repetir codi de stream_context
+// FUNCIÓ AUXILIAR PER A ENVIAR PETICIONS (Substitueix cURL complex)
 function enviarPeticio($url, $method, $data = null) {
-    $opts = ['http' => ['method' => $method, 'header' => "Content-type: application/json\r\n"]];
-    if ($data) $opts['http']['content'] = json_encode($data);
+    $opts = [
+        'http' => [
+            'method'  => $method,
+            'header'  => "Content-type: application/json\r\n",
+            'ignore_errors' => true
+        ]
+    ];
+    if ($data) {
+        $opts['http']['content'] = json_encode($data);
+    }
     
-    echo @file_get_contents($url, false, stream_context_create($opts));
+    $context  = stream_context_create($opts);
+    $result = @file_get_contents($url, false, $context);
+
+    // Passem el codi de resposta del JSON Server al navegador
+    if (isset($http_response_header[0])) {
+        preg_match('#HTTP/\S+\s+(\d{3})#', $http_response_header[0], $matches);
+        if(isset($matches[1])) http_response_code($matches[1]);
+    }
+
+    echo $result ? $result : json_encode(['status' => 'error']);
 }
 ?>
