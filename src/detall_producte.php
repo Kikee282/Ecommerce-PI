@@ -60,7 +60,7 @@ if ($httpCode === 404 || !$producte) {
                 <a href="#">Sobre nosaltres</a>
                 <a href="contacte.php">Contacte</a>
                 <?php if ($isLoggedIn): ?>
-                    <a href="./auth/profile.php" style="font-weight: bold;"><?php echo htmlspecialchars($nombreUsuario); ?></a>
+                    <a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></a>
                     <a href="./auth/logout.php" style="color: red;">Tancar Sessió</a>
                 <?php else: ?>
                     <a href="./auth/login.html">Iniciar Sessió</a>
@@ -148,7 +148,7 @@ if ($httpCode === 404 || !$producte) {
         // Ahora sí funcionará porque las variables PHP existen
         const currentUser = {
             id: <?php echo $userId; ?>,
-            nom: <?php echo $jsUserName; ?>
+            nom: <?php echo $jsUserName; ?>,
             role: <?php echo $jsUserRole; ?>
         };
     </script>
