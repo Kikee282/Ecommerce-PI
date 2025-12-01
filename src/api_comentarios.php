@@ -72,4 +72,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Si no es GET ni POST
 http_response_code(405);
 echo json_encode(['error' => 'Mètode no permès']);
+
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    
+    if (!isset($_SESSION['user_id'])) {
+        http_response_code(401);
+        exit(json_encode(['error' => 'No autoritzat']));
+    }
+
+    $commentId = $_GET['id'] ?? null;
+    if (!$commentId) exit(json_encode(['error' => 'Falta ID']));
+
+    // 1. Obtener el comentario para ver de quién es
+    $commentData = json_decode(file_get_contents("http://jsonserver:3000/comentaris/$commentId"), true);
+    
+    // 2. Obtener el usuario actual para ver su ROL (si es admin)
+    // Nota: Lo ideal es guardar el rol en $_SESSION al hacer login.
+    // Aquí haremos una consulta rápida para verificar (más seguro).
+    $myId = $_SESSION['user_id'];
+    $myUserData = json_decode(file_get_contents("http://jsonserver:3000/usuaris/$myId"), true);
+    $isAdmin = ($myUserData['role'] ?? 'user') === 'admin';
+
+    // 3. VERIFICACIÓN DE PERMISOS
+    // ¿Es mi comentario? O ¿Soy admin?
+    if ((string)$commentData['userId'] === (string)$myId || $isAdmin) {
+        
+        // Procedemos a borrar
+        $ch = curl_init("http://jsonserver:3000/comentaris/$commentId");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_exec($ch);
+        curl_close($ch);
+        echo json_encode(['status' => 'deleted']);
+        
+    } else {
+        http_response_code(403);
+        echo json_encode(['error' => 'No tens permís per esborrar això']);
+    }
+    exit;
+}
 ?>

@@ -31,6 +31,19 @@ async function carregarComentaris() {
         }
 
         comentaris.forEach(c => {
+            let botoEsborrar = '';
+            // IMPORTANTE: Asegúrate de que comparas strings con strings
+            if (currentUser.id && String(c.userId) === String(currentUser.id)) {
+                botoEsborrar = `<button class="btn-delete-comment" onclick="esborrarComentari(${c.id})">Esborrar</button>`;
+            }
+
+            // HTML
+            div.innerHTML = `
+                <div class="comment-header">
+                    <span>${c.nom_usuari} ...</span>
+                    ${botoEsborrar} </div>
+                ...
+            `;
             const dateObj = new Date(c.data);
             const dataFormatada = dateObj.toLocaleDateString('ca-ES');
             
@@ -111,5 +124,23 @@ async function enviarComentariDirecte(e) {
     } finally {
         btn.disabled = false;
         btn.innerText = "Publicar Comentari";
+    }
+}
+
+async function esborrarComentari(idComentari) {
+    if(!confirm("Estàs segur d'esborrar aquest comentari?")) return;
+
+    try {
+        const response = await fetch(`./api_comentarios.php?id=${idComentari}`, {
+            method: 'DELETE'
+        });
+        
+        if (response.ok) {
+            carregarComentaris(); // Recargar lista
+        } else {
+            alert("No tens permís o ha hagut un error.");
+        }
+    } catch (e) {
+        console.error(e);
     }
 }

@@ -6,7 +6,7 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
 
 // --- LÍNEAS QUE FALTABAN (CRUCIALES PARA EL JS) ---
 // Definimos las variables para pasarlas al script de abajo sin errores
-$userId = $isLoggedIn ? $_SESSION['user_id'] : 'null';
+$userId = $isLoggedIn ? json_encode($_SESSION['user_id']) : 'null';
 // Usamos json_encode para que el string sea seguro en JS (comillas, etc.)
 $jsUserName = $isLoggedIn ? json_encode($nombreUsuario) : 'null';
 // --------------------------------------------------
@@ -43,7 +43,7 @@ if ($httpCode === 404 || !$producte) {
     <title><?php echo htmlspecialchars($producte['nom']); ?> - Detall</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="./styles/stylesDetalle.css">
+    <link rel="stylesheet" href="./styles/stylesDetalle.css?v=<?php echo time(); ?>">
 </head>
 <body>
 
@@ -60,7 +60,7 @@ if ($httpCode === 404 || !$producte) {
                 <a href="#">Sobre nosaltres</a>
                 <a href="contacte.php">Contacte</a>
                 <?php if ($isLoggedIn): ?>
-                    <a href="./auth/profile.php" style="font-weight: bold;">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></a>
+                    <a href="./auth/profile.php" style="font-weight: bold;"><?php echo htmlspecialchars($nombreUsuario); ?></a>
                     <a href="logout.php" style="color: red;">Tancar Sessió</a>
                 <?php else: ?>
                     <a href="./auth/login.html">Iniciar Sessió</a>
@@ -88,6 +88,11 @@ if ($httpCode === 404 || !$producte) {
                 
                 <div class="detail-info">
                     <h1 class="detail-title"><?php echo htmlspecialchars($producte['nom']); ?></h1>
+                    <div class="like-container" style="margin-bottom: 20px;">
+                        <button id="btnLike" class="btn-like" onclick="toggleLike()">
+                            <i class="far fa-heart"></i> </button>
+                        <span id="likeCount">0</span> M'agrada
+                    </div>
                     <p class="detail-sku">REF: <?php echo htmlspecialchars($producte['sku'] ?? 'GENERIC'); ?></p>
                     <div class="detail-price"><?php echo htmlspecialchars($producte['preu']); ?> €</div>
                     <div class="detail-desc">
@@ -146,7 +151,8 @@ if ($httpCode === 404 || !$producte) {
             nom: <?php echo $jsUserName; ?>
         };
     </script>
-
-    <script src="./js/comentarios.js"></script>
+    
+    <script src="./js/likes.js?v=<?php echo time(); ?>"></script>
+    <script src="./js/comentarios.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
