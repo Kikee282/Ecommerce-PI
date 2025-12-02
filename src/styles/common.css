@@ -9,6 +9,11 @@
     --header-height: 120px;
 }
 
+main {
+    flex: 1; /* Ocupa todo el espacio sobrante disponible */
+    width: 100%; /* Asegura que ocupe todo el ancho */
+}
+
 body {
     background-color: var(--color-bg);
     font-family: var(--font-main);
@@ -17,6 +22,9 @@ body {
     padding: 0;
     /* Espai estàndard per a totes les pàgines perquè el header no tapi res */
     padding-top: 120px; 
+    min-height: 100vh;       /* Fuerza al cuerpo a medir al menos el 100% de la pantalla */
+    display: flex;           /* Activa el modo flexible */
+    flex-direction: column;  /* Organiza los elementos en columna (arriba a abajo) */
 }
 
 a { text-decoration: none; color: inherit; transition: color 0.2s; }

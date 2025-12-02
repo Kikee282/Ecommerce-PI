@@ -11,6 +11,15 @@
     },
     {
       "id": "2",
+      "sku": "A002",
+      "nom": "Collaret Creu",
+      "descripcio": "Collaret d'acer inoxidable amb penjoll de creu.",
+      "img": "./contenido/image.png",
+      "preu": 45.5,
+      "estoc": 15
+    },
+    {
+      "id": "3",
       "sku": "A003",
       "nom": "Arracades Rodes",
       "descripcio": "Arracades de cèrcol petites d'estil clàssic.",
@@ -49,18 +58,19 @@
       "cognoms": "Navarro Jover",
       "data_registre": "2025-12-01T15:23:03+00:00",
       "role": "user"
+    },
+    {
+      "id": "b329",
+      "nom_usuari": "Guillem2",
+      "contrasenya": "$2y$10$8zE/2qro714rwfuePCLW9etYD9tLQP4vYT7R6kQFNDH3EQ54JsiHG",
+      "email": "raquel.llopis75@gmail.com",
+      "nom": "Guillem",
+      "cognoms": "Ordiñana",
+      "role": "user",
+      "data_registre": "2025-12-02T10:10:50+00:00"
     }
   ],
   "comentaris": [
-    {
-      "id": "9c0f",
-      "productId": 1,
-      "userId": "18f7",
-      "nom_usuari": "Bataller",
-      "text": "esta de puta mare",
-      "puntuacio": 5,
-      "data": "2025-12-01T11:04:57+00:00"
-    },
     {
       "id": "a7a4",
       "productId": 1,
@@ -69,18 +79,32 @@
       "text": "no mola",
       "puntuacio": 1,
       "data": "2025-12-01T11:05:59+00:00"
+    },
+    {
+      "id": "f452",
+      "productId": 1,
+      "userId": "b329",
+      "nom_usuari": "Guillem",
+      "text": "duro de cojones\n",
+      "puntuacio": 5,
+      "data": "2025-12-02T11:48:52+00:00"
     }
   ],
   "likes": [
     {
-      "id": "a1f6",
+      "id": "bf1b",
+      "productId": 1,
+      "userId": "18f7"
+    },
+    {
+      "id": "b0af",
       "productId": 1,
       "userId": "fbb6"
     },
     {
-      "id": "bf1b",
-      "productId": 1,
-      "userId": "18f7"
+      "id": "c26e",
+      "productId": 3,
+      "userId": "b329"
     }
   ]
 }

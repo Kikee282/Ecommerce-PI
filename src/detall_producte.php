@@ -3,33 +3,33 @@ session_start();
 $isLoggedIn = isset($_SESSION['user_id']);
 $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
 
-// --- 1. VARIABLES PER A JS ---
+// 1. VARIABLES PARA JS
 $userId = $isLoggedIn ? json_encode($_SESSION['user_id']) : 'null';
 $jsUserName = $isLoggedIn ? json_encode($nombreUsuario) : 'null';
 $jsUserRole = $isLoggedIn ? json_encode($_SESSION['user_role'] ?? 'user') : '"guest"';
-// -----------------------------
 
-if (!isset($_GET['id'])) {
+// 2. VALIDACIÓN DE ID
+if (empty($_GET['id'])) {
     header("Location: productos.php");
     exit;
 }
 
 $prodId = $_GET['id'];
 
-// --- 2. CONNEXIÓ AMB L'API (CORREGIDA) ---
-// Canviem cURL per file_get_contents que és més estable en el teu entorn
+// 3. CONEXIÓN SEGURA (CORREGIDA)
+// Usamos barra / para obtener el objeto directo, no un array
 $apiUrl = "http://jsonserver:3000/productes/" . $prodId;
 
-// La @ silencia errors PHP (warnings) per poder gestionar-los nosaltres
-$response = @file_get_contents($apiUrl);
-$producte = json_decode($response, true);
+$json = @file_get_contents($apiUrl);
+$producte = json_decode($json, true);
 
-// Si no hi ha resposta o el JSON no és vàlid, mostrem error
-if ($response === false || !$producte) {
-    die("<div style='text-align:center; padding:50px;'>
-            <h2>Producte no trobat</h2>
-            <p>No s'ha pogut connectar amb el servidor o l'ID no existeix.</p>
-            <a href='productos.php'>Tornar al catàleg</a>
+// 4. COMPROBACIÓN
+if ($json === false || !$producte) {
+    // Si falla, mostramos error claro
+    die("<div style='text-align:center; padding:50px; font-family:sans-serif;'>
+            <h2 style='color:#d9534f'>Producte no trobat</h2>
+            <p>No s'ha trobat cap producte amb ID: " . htmlspecialchars($prodId) . "</p>
+            <a href='productos.php' style='color:blue; text-decoration:underline'>Tornar al catàleg</a>
          </div>");
 }
 ?>
@@ -42,12 +42,12 @@ if ($response === false || !$producte) {
     <title><?php echo htmlspecialchars($producte['nom']); ?> - Detall</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="./styles/stylesDetalle.css">
-    <link rel="stylesheet" href="./styles/common.css">
+    <link rel="stylesheet" href="./styles/common.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="./styles/stylesDetalle.css?v=<?php echo time(); ?>">
 </head>
 <body>
 
-    <header class="header-exacto">
+<header class="header-exacto">
         <div class="header-logo-container">
             <a href="index.php">
                 <img src="./contenido/logoParteArriba.png" alt="Logo">
@@ -60,24 +60,25 @@ if ($response === false || !$producte) {
                 <a href="#">Sobre nosaltres</a>
                 <a href="contacte.php">Contacte</a>
                 <?php if ($isLoggedIn): ?>
-                    <a href="./auth/profile.php" style="font-weight: bold;">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></a>
+                    <a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></a>
                     <a href="./auth/logout.php" style="color: red;">Tancar Sessió</a>
-                <?php else: ?>
+                    <?php else: ?>
                     <a href="./auth/login.html">Iniciar Sessió</a>
-                <?php endif; ?>
+                    <?php endif; ?>
             </nav>
-
+            <?php if ($isLoggedIn): ?>
             <div class="header-icons-clean">
-                <?php if ($isLoggedIn): ?>
-                    <a href="./auth/profile.php"><i class="fas fa-user"></i></a>
-                <?php else: ?>
-                    <a href="./auth/login.html"><i class="fas fa-user"></i></a>
-                <?php endif; ?>
+                <a href="./auth/profile.php"><i class="fas fa-user"></i></a>
                 <a href="#"><i class="fas fa-shopping-basket"></i></a>
             </div>
+            <?php else: ?>
+              <div class="header-icons-clean">
+                <a href="./auth/login.html"><i class="fas fa-user"></i></a>
+                <a href="#"><i class="fas fa-shopping-basket"></i></a>
+            </div>
+            <?php endif; ?>
         </div>
     </header>
-
     <main>
         <div class="detail-wrapper">
             
@@ -90,7 +91,7 @@ if ($response === false || !$producte) {
                     <h1 class="detail-title"><?php echo htmlspecialchars($producte['nom']); ?></h1>
                     
                     <div class="like-container" style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                        <button id="btnLike" class="btn-like" onclick="toggleLike()" style="background:none; border:none; cursor:pointer; font-size:1.5rem; color:#ccc;">
+                        <button id="btnLike" class="btn-like" onclick="toggleLike()">
                             <i class="far fa-heart"></i>
                         </button>
                         <span style="font-size: 0.9rem; color: #666;">
@@ -104,6 +105,7 @@ if ($response === false || !$producte) {
                         <p><?php echo htmlspecialchars($producte['descripcio']); ?></p>
                     </div>
                     <p>Estoc disponible: <strong><?php echo $producte['estoc']; ?></strong></p>
+                    
                     <button class="btn-add-cart" onclick="alert('Afegit al carret!')">Afegir al Carret</button>
                 </div>
             </div>

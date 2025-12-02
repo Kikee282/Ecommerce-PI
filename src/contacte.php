@@ -47,7 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 </head>
 <body>
-
     <header class="header-exacto">
         <div class="header-logo-container">
             <a href="index.php">
@@ -135,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <div class="container footer-grid">
             
             <div class="footer-logo">
-                <a href="#"><img src="./contenido/log_blanc.png" alt="Logo" lin></a>
+                <a href="./index.php"><img src="./contenido/log_blanc.png" alt="Logo" lin></a>
             </div>
             
             <div class="footer-column">

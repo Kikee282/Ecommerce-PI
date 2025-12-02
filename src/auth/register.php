@@ -12,49 +12,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Error: Camps obligatoris buits.");
     }
 
-    // 2. Comprovar duplicats (GET al JSON Server)
-    // Nota: Dins de Docker, el host és 'jsonserver', no 'localhost'
-    $apiUrl = "http://jsonserver:3000/usuaris";
-    
-    $checkUrl = $apiUrl . "?nom_usuari=" . urlencode($nomUsuari);
-    
-    // Iniciem cURL per comprovar usuari
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $checkUrl);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($ch);
-    curl_close($ch);
+    // URL base de l'API (interna de Docker)
+    $baseUrl = "http://jsonserver:3000/usuaris";
 
-    $existingUsers = json_decode($response, true);
+    // 2. COMPROVAR DUPLICATS (Nom d'usuari)
+    $checkUserUrl = $baseUrl . "?nom_usuari=" . urlencode($nomUsuari);
+    $existingUser = json_decode(file_get_contents($checkUserUrl), true);
 
-    if (!empty($existingUsers)) {
-        die("Error: Aquest nom d'usuari ja existeix.");
+    if (!empty($existingUser)) {
+        die("Error: Aquest nom d'usuari ja existeix. <a href='registerForm.html'>Torna-ho a provar</a>");
     }
 
-    // 3. Xifrar contrasenya
+    // 3. COMPROVAR DUPLICATS (Email) - NOVA VALIDACIÓ
+    $checkEmailUrl = $baseUrl . "?email=" . urlencode($email);
+    $existingEmail = json_decode(file_get_contents($checkEmailUrl), true);
+
+    if (!empty($existingEmail)) {
+        die("Error: Aquest correu electrònic ja està registrat. <a href='login.html'>Inicia sessió</a>");
+    }
+
+    // 4. Xifrar contrasenya
     $password_hash = password_hash($raw_pass, PASSWORD_DEFAULT);
 
-    // 4. Preparar dades per a l'API
+    // 5. Preparar dades per a l'API
+    // Per defecte, el rol serà 'user'. Només es pot fer admin tocant la BD manualment.
     $newUser = [
         "nom_usuari" => $nomUsuari,
-        "contrasenya" => $password_hash, // Guardem el hash, no la plana
+        "contrasenya" => $password_hash,
         "email" => $email,
         "nom" => $nom,
         "cognoms" => $cognoms,
-        "data_registre" => date('c') // Format ISO 8601
+        "role" => "user", 
+        "data_registre" => date('c')
     ];
 
-    // 5. Enviar a JSON Server (POST)
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $apiUrl);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($newUser));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    // 6. Enviar a JSON Server (POST)
+    // Usem stream_context en lloc de cURL per consistència i simplicitat
+    $options = [
+        'http' => [
+            'header'  => "Content-type: application/json\r\n",
+            'method'  => 'POST',
+            'content' => json_encode($newUser),
+            'ignore_errors' => true
+        ]
+    ];
     
-    $result = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    $context  = stream_context_create($options);
+    $result = file_get_contents($baseUrl, false, $context);
+    
+    // Obtenim el codi de resposta
+    $httpCode = 0;
+    if (isset($http_response_header[0])) {
+        preg_match('#HTTP/\S+\s+(\d{3})#', $http_response_header[0], $matches);
+        $httpCode = (int)$matches[1];
+    }
 
     if ($httpCode === 201) { // 201 Created
         // Redirigir al login si tot ha anat bé

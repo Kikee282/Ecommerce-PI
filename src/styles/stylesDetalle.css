@@ -274,14 +274,22 @@
 
 .btn-like {
     background: none;
-    border: 2px solid #ddd;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-    color: #ccc;
+    border: none;
     cursor: pointer;
-    transition: all 0.3s;
+    font-size: 1.8rem; /* Tamaño del corazón */
+    color: #ccc;       /* Gris por defecto (desmarcado) */
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+/* Cuando está marcado (Clase que pone JS) */
+.btn-like.liked {
+    color: #e31b23 !important; /* Rojo intenso */
+    transform: scale(1.1);     /* Un pequeño efecto de "latido" */
+}
+
+.btn-like:hover {
+    color: #ff6b6b; /* Rojo suave al pasar el ratón */
 }
 
 .btn-like:hover {

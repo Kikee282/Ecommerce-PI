@@ -116,11 +116,6 @@ h2 {
     padding: 80px 0;
 }
 
-.featured-categories {
-    background-color: var(--color-light-gray);
-}
-
-
 .product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

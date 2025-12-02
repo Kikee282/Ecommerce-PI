@@ -11,12 +11,12 @@
     --font-ui: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Fuente limpia para menús */
 }
 
-
 /* --- CONTENIDO DEL CATÁLOGO --- */
 .catalog-container {
     max-width: 1200px;
     margin: 0 auto; /* Ya tenemos padding en el body, no hace falta margen superior grande */
     padding: 0 20px;
+    margin-top: 40px;
 }
 
 .page-title {
@@ -31,7 +31,7 @@
 .showcase {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr);
-    gap: 50px;
+    gap: 80px;
 }
 
 /* --- TARJETA DE PRODUCTO --- */

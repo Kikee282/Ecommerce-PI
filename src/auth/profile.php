@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.html");
     exit;
 }
-
+$nombreUsuario = $_SESSION['user_real_name'];
 $userId = $_SESSION['user_id'];
 $apiUrl = "http://jsonserver:3000/usuaris/" . $userId;
 $missatge = "";
@@ -61,7 +61,11 @@ if (!$userData) {
 <head>
     <meta charset="UTF-8">
     <title>El meu Perfil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="../styles/common.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../styles/styleIndex.css">
+    <link rel="stylesheet" href="../styles/common.css">
     <style>
         /* Estils específics per al perfil */
         .profile-container {
@@ -81,16 +85,26 @@ if (!$userData) {
 </head>
 <body>
     
-    <header>
-        <nav class="navbar">
-            <ul>
-                <div class="logoHeader">
-                     <img src="../contenido/logoParteArriba.png" alt="Logo">
-                </div>
-                <li><a href="../index.php">Tornar a l'Inici</a></li>
-                <li><a href="./logout.php" style="color: red;">Tancar Sessió</a></li>
-            </ul>
-        </nav>
+    <header class="header-exacto">
+        <div class="header-logo-container">
+            <a href="index.php">
+                <img src="../contenido/logoParteArriba.png" alt="Logo">
+            </a>
+        </div>
+
+        <div class="header-right-side">
+            <nav class="nav-links-clean">
+                <a href="../productos.php">Productes</a>
+                <a href="#">Sobre nosaltres</a>
+                <a href="../contacte.php">Contacte</a>
+                <a href="#"><?php echo htmlspecialchars($nombreUsuario); ?></a>
+                <a href="./logout.php" style="color: red;">Tancar Sessió</a>
+            </nav>
+            <div class="header-icons-clean">
+                <a href="#"><i class="fas fa-user"></i></a>
+                <a href="#"><i class="fas fa-shopping-basket"></i></a>
+            </div>
+        </div>
     </header>
 
     <main>
