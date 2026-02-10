@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+</head>
     <nav class="navbar navbar-expand-lg bg-white fixed-top shadow-sm py-3">
         <div class="container-fluid px-4">
             
@@ -170,36 +170,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             
         </div>
     </main>
-    <footer class="main-footer">
-        <div class="container footer-grid">
-            
-            <div class="footer-logo">
-                <a href="./index.php"><img src="./contenido/log_blanc.png" alt="Logo" lin></a>
-            </div>
-            
-            <div class="footer-column">
-                <h4>Informació</h4>
-                <a href="#">Informació legal</a>
-                <a href="#">Política de devolucions</a>
-                <a href="#">Política de cookies</a>
-            </div>
-            
-            <div class="footer-column">
-                <h4>Contacte</h4>
-                <p>Telèfon: 122 884 2887</p>
-                <a href="#">Sobre nosaltres</a>
-            </div>
-            
-            <div class="footer-column">
-                <h4>Segueix-nos</h4>
-                <div class="social-icons">
-                    <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <?php include 'footer.php'; ?>
+    
     <script src="./js/validacion.js"></script>
 </body>
 </html>

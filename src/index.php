@@ -14,7 +14,7 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
     <link href="./styles/bootstrap.min.css" rel="stylesheet">
     
     <link rel="stylesheet" href="./styles/common.css">
-    <link rel="stylesheet" href="/styles/styleIndex.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="./styles/styleIndex.css?v=<?php echo time(); ?>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
@@ -181,85 +181,7 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
         </section>
     </main>
 
-    <footer class="main-footer">
-        <div class="container footer-grid">
-            <div class="footer-logo">
-                <a href="#"><img src="./contenido/log_blanc.png" alt="Logo"></a>
-            </div>
-            <div class="footer-column">
-    <h4>Informació</h4>
-    <a href="#">Informació legal</a>
-    <a href="#">Política de devolucions</a>
-    <a href="#">Política de cookies</a>
-    
-    <button id="btn-accesibilidad" onclick="toggleAccessibility()">
-        <i class="fas fa-universal-access"></i> Mode Llegible / Alt Contrast
-    </button>
-</div>
-            <div class="footer-column">
-                <h4>Contacte</h4>
-                <p>Telèfon: 122 884 2887</p>
-                <a href="#">Sobre nosaltres</a>
-            </div>
-            <div class="footer-column">
-                <h4>Segueix-nos</h4>
-                <div class="social-icons">
-                    <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="./js/bootstrap.bundle.min.js"></script>
-    <script>
-        if (localStorage.getItem('accessibilityMode') === 'active') {
-            document.body.classList.add('accessibility-mode');
-        }
-
-        function toggleAccessibility() {
-            const body = document.body;
-            body.classList.toggle('accessibility-mode');
-            
-            if (body.classList.contains('accessibility-mode')) {
-                localStorage.setItem('accessibilityMode', 'active');
-            } else {
-                localStorage.removeItem('accessibilityMode');
-            }
-        }
-
-        
-        // 1. Función para cambiar el tamaño
-        function setFontSize(size) {
-            const html = document.documentElement; // Seleccionamos la etiqueta <html>
-            let percentage = '100%'; // Valor por defecto (16px)
-
-            switch (size) {
-                case 'small':
-                    percentage = '85%'; // ~13.6px
-                    break;
-                case 'normal':
-                    percentage = '100%'; // 16px
-                    break;
-                case 'large':
-                    percentage = '120%'; // ~19.2px
-                    break;
-                case 'xlarge':
-                    percentage = '140%'; // ~22.4px
-                    break;
-            }
-
-            html.style.fontSize = percentage;
-            
-            // Guardamos la preferencia
-            localStorage.setItem('userFontSize', size);
-        }
-
-        // 2. Cargar la preferencia al iniciar la página
-        const savedSize = localStorage.getItem('userFontSize');
-        if (savedSize) {
-            setFontSize(savedSize);
-        }
-    </script>
+    </main> <?php include 'footer.php'; ?>
 </body>
+</html>
 </html>

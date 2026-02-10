@@ -3,7 +3,6 @@
 /* ===== VARIABLES GLOBALS I RESET ===== */
 :root {
     --color-primary: #3b7da3;
-    --color-footer-bg: #2a402a; 
     --color-text: #333;
     --color-light-gray: #f9f9f9;
     --color-white: #ffffff;
@@ -77,14 +76,7 @@
     color: #333;
 }
 
-/* --- FOOTER --- */
-.main-footer {
-    background-color: #243020;
-    color: white;
-    padding: 60px 0;
-    margin-top: 80px;
-    text-align: center;
-}
+
 
 /* --- RESPONSIVE --- */
 
