@@ -114,13 +114,3 @@ img { max-width: 100%; display: block; }
 .social-icons { display: flex; gap: 15px; }
 .social-icons a { font-size: 1.5rem; color: white; }
 
-/* --- 4. RESPONSIVE COMÚ --- */
-@media (max-width: 950px) {
-    body { padding-top: 0; }
-    .header-exacto { position: relative; height: auto; flex-direction: column; padding: 20px; gap: 15px; }
-    .nav-links-clean { position: static; transform: none; flex-direction: column; text-align: center; gap: 15px; }
-    .header-right-side { width: 100%; justify-content: center; }
-    .footer-grid { grid-template-columns: 1fr; text-align: center; }
-    .footer-logo { align-items: center; display: flex; justify-content: center; }
-    .social-icons { justify-content: center; }
-}

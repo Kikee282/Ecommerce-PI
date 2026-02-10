@@ -45,40 +45,80 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="stylesheet" href="./styles/stylesContact.css">
     <link rel="stylesheet" href="./styles/common.css">
 
-</head>
-<body>
-    <header class="header-exacto">
-        <div class="header-logo-container">
-            <a href="index.php">
-                <img src="./contenido/logoParteArriba.png" alt="Logo">
-            </a>
-        </div>
+    <link href="./styles/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-        <div class="header-right-side">
-            <nav class="nav-links-clean">
-                <a href="productos.php">Productes</a>
-                <a href="#">Sobre nosaltres</a>
-                <a href="contacte.php">Contacte</a>
-                <?php if ($isLoggedIn): ?>
-                    <a href="./auth/profile.php"><?php echo htmlspecialchars($nombreUsuario); ?></a>
-                    <a href="./auth/logout.php" style="color: red;">Tancar Sessió</a>
-                    <?php else: ?>
-                    <a href="./auth/login.html">Iniciar Sessió</a>
+    <nav class="navbar navbar-expand-lg bg-white fixed-top shadow-sm py-3">
+        <div class="container-fluid px-4">
+            
+            <a class="navbar-brand" href="index.php">
+                <img src="./contenido/logoParteArriba.png" alt="Logo" style="height: 50px;">
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+                
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="productos.php">Productes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Sobre nosaltres</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacte.php">Contacte</a></li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="fontSizeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-font"></i> <span class="d-lg-none ms-2">Mida de la lletra</span>
+                        </a>
+                        <ul class="dropdown-menu text-center text-lg-start" aria-labelledby="fontSizeDropdown">
+                            <li><button class="dropdown-item" onclick="setFontSize('small')">Petita</button></li>
+                            <li><button class="dropdown-item" onclick="setFontSize('normal')">Normal</button></li>
+                            <li><button class="dropdown-item" onclick="setFontSize('large')">Gran</button></li>
+                            <li><button class="dropdown-item" onclick="setFontSize('xlarge')">Molt Gran</button></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center align-items-center gap-2">
+                    
+                    <?php if ($isLoggedIn): ?>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" href="./auth/profile.php">
+                                <?php echo htmlspecialchars($nombreUsuario); ?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="./auth/logout.php">
+                                Tancar Sessió
+                            </a>
+                        </li>
+
                     <?php endif; ?>
-            </nav>
-            <?php if ($isLoggedIn): ?>
-            <div class="header-icons-clean">
-                <a href="./auth/profile.php"><i class="fas fa-user"></i></a>
-                <a href="#"><i class="fas fa-shopping-basket"></i></a>
+
+                    <li class="nav-item d-flex align-items-center justify-content-center gap-3 mt-2 mt-lg-0">
+                        
+                        <?php if ($isLoggedIn): ?>
+                            <a class="nav-link p-0" href="./auth/profile.php">
+                                <i class="fas fa-user fs-5"></i>
+                            </a>
+                        <?php else: ?>
+                            <a class="nav-link p-0" href="./auth/login.html">
+                                <i class="fas fa-user fs-5"></i>
+                            </a>
+                        <?php endif; ?>
+
+                        <a class="nav-link p-0" href="#">
+                            <i class="fas fa-shopping-basket fs-5"></i>
+                        </a>
+                    </li>
+
+                </ul>
+                
             </div>
-            <?php else: ?>
-              <div class="header-icons-clean">
-                <a href="./auth/login.html"><i class="fas fa-user"></i></a>
-                <a href="#"><i class="fas fa-shopping-basket"></i></a>
-            </div>
-            <?php endif; ?>
         </div>
-    </header>
+    </nav>
     <main>
         <div class="contact-wrapper">
             
@@ -159,7 +199,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
         </div>
     </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./js/validacion.js"></script>
 </body>
 </html>
