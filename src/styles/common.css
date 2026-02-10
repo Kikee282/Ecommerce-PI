@@ -2,23 +2,22 @@
 
 /* 1. IMPORTAR FUENTES (Centralizado) */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Georgia&display=swap');
 
 /* 2. CONFIGURACIÓN BASE */
 :root {
-    /* Usamos Montserrat como fuente principal de UI (como en tu index) */
-    --font-ui: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif; 
-    --font-serif: 'Georgia', serif;
+    /* Unificamos la fuente aquí para todos */
+    --font-main: 'Montserrat', sans-serif; 
+    --font-ui: 'Montserrat', sans-serif;
     --color-text: #333;
     --color-bg: #fcfcfc;
-    --header-height: 80px;
-    --footer-bg: #243020;
+    --header-height: 85px; 
+    --footer-bg: #243020; /* Color verde oscuro oficial del footer */
 }
 
 /* Aplicar tipografía a TODO el sitio */
 body {
     background-color: var(--color-bg);
-    font-family: var(--font-ui); /* Cambio importante: Unifica la fuente */
+    font-family: var(--font-main); /* Cambio importante: Unifica la fuente */
     color: var(--color-text);
     margin: 0;
     padding: 0;

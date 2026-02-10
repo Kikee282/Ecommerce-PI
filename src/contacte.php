@@ -41,15 +41,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacte - Per L'Art</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="./styles/stylesContact.css">
-    <link rel="stylesheet" href="./styles/common.css">
-
     <link href="./styles/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="./styles/common.css">
+    <link rel="stylesheet" href="./styles/stylesContact.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+<body>
+    
     <nav class="navbar navbar-expand-lg bg-white fixed-top shadow-sm py-3">
         <div class="container-fluid px-4">
             
@@ -65,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center align-items-center">
                     <li class="nav-item"><a class="nav-link" href="productos.php">Productes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Sobre nosaltres</a></li>
+                    <li class="nav-item"><a class="nav-link" href="sobre_nosaltres.php">Sobre nosaltres</a></li>
                     <li class="nav-item"><a class="nav-link" href="contacte.php">Contacte</a></li>
 
                     <li class="nav-item dropdown">

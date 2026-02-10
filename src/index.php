@@ -37,7 +37,7 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
             
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center align-items-center">
                 <li class="nav-item"><a class="nav-link" href="productos.php">Productes</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Sobre nosaltres</a></li>
+                <li class="nav-item"><a class="nav-link" href="sobre_nosaltres.php">Sobre nosaltres</a></li>
                 <li class="nav-item"><a class="nav-link" href="contacte.php">Contacte</a></li>
 
                 <li class="nav-item dropdown">
