@@ -22,7 +22,7 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg bg-white fixed-top shadow-sm py-3">
+    <nav class="navbar navbar-expand-lg bg-white fixed-top shadow-sm py-3">
     <div class="container-fluid px-4">
         
         <a class="navbar-brand" href="index.php">
@@ -57,11 +57,6 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
                 
                 <?php if ($isLoggedIn): ?>
                     <li class="nav-item">
-                        <a class="nav-link fw-bold" href="./auth/profile.php">
-                            <?php echo htmlspecialchars($nombreUsuario); ?>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link text-danger" href="./auth/logout.php">
                             Tancar Sessió
                         </a>
@@ -82,7 +77,12 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
                     <?php endif; ?>
 
                     <a class="nav-link p-0" href="#">
+                        <a class="nav-link p-0 position-relative" href="carret.php">
                         <i class="fas fa-shopping-basket fs-5"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count" style="font-size: 0.6rem; display:none;">
+                            0
+                        </span>
+                    </a>
                     </a>
                 </li>
 
@@ -182,6 +182,7 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
     </main>
 
     </main> <?php include 'footer.php'; ?>
+    <script src="./js/logicCarret.js"></script>
 </body>
 </html>
 </html>

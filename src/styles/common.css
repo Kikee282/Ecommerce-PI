@@ -35,6 +35,7 @@ h1, h2, h3, h4, h5, h6, .navbar, .btn {
 main {
     flex: 1; 
     width: 100%; 
+    padding-bottom: 80px;
 }
 
 a { text-decoration: none; color: inherit; transition: color 0.2s; }
@@ -99,4 +100,57 @@ img { max-width: 100%; display: block; }
     background: rgba(255,255,255,0.1);
     color: white;
     border-color: white;
+}
+
+.navbar .nav-link, 
+.navbar .navbar-brand, 
+.navbar .dropdown-item,
+.navbar button, 
+.navbar span {
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+/* 2. PROTECCIÓN DE ICONOS: Asegurar que los iconos usen su propia fuente */
+.navbar .fas, .navbar .fab, .navbar .far, .navbar .fa {
+    font-family: "Font Awesome 6 Free" !important; /* Restaura la fuente de iconos */
+    font-weight: 900 !important; /* Necesario para los iconos sólidos */
+}
+
+/* 3. Estilos de los enlaces (Tamaño y color) */
+.navbar .nav-link {
+    font-size: 16px !important;      
+    font-weight: 500 !important;     
+    color: #333 !important;          
+    letter-spacing: 0.5px !important; 
+    text-transform: none !important;
+}
+
+/* 4. Efecto Hover (al pasar el ratón) */
+.navbar .nav-link.active, 
+.navbar .nav-link:hover {
+    color: #000 !important;          
+}
+
+/* 5. Dropdown de texto */
+.dropdown-menu .dropdown-item {
+    font-size: 14px !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.btn-footer {
+    background-color: var(--footer-bg); /* Usa el #243020 */
+    color: white;
+    border: 1px solid var(--footer-bg);
+    transition: all 0.3s ease;
+}
+
+.btn-footer:hover {
+    background-color: #161f15; /* Un tono ligeramente más oscuro para el efecto hover */
+    border-color: #1a2418;
+    color: white;
+}
+
+.btn-footer:active {
+    background-color: #000;
+    border-color: #000;
 }
