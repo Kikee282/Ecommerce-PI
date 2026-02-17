@@ -228,7 +228,7 @@ $nombreUsuario = $isLoggedIn ? $_SESSION['user_real_name'] : '';
     }
 
     function processCheckout() {
-        alert("Passar a caixa (Sprint 3)");
+    window.location.href = 'checkout.php';
     }
 
     // Cargar al inicio
