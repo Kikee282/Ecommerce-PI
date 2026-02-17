@@ -189,40 +189,42 @@ if ($json === false || !$producte) {
         </div>
     </main>
 
-    <script>
-        const currentProductId = <?php echo $prodId; ?>;
-        const currentUser = {
-            id: <?php echo $userId; ?>,
-            nom: <?php echo $jsUserName; ?>,
-            role: <?php echo $jsUserRole; ?>
-        };
-        function afegirProducteActual() {
-        // Obtenemos datos desde PHP
+    <?php include 'footer.php'; ?>
+
+<script>
+    // Usamos json_encode para asegurar que el ID tenga el formato correcto (número o texto)
+    const currentProductId = <?php echo json_encode($prodId); ?>;
+    
+    // Definimos el usuario con los datos de PHP
+    const currentUser = {
+        id: <?php echo $userId; ?>,      // Ya viene codificado como json o 'null' desde arriba
+        nom: <?php echo $jsUserName; ?>, // Ya viene codificado
+        role: <?php echo $jsUserRole; ?> // Ya viene codificado
+    };
+
+    // Función para añadir al carrito (usando la variable $producte de PHP)
+    function afegirProducteActual() {
         const producto = {
-            id: <?php echo $producte['id']; ?>,
-            nom: "<?php echo addslashes($producte['nom']); ?>",
-            preu: "<?php echo $producte['preu']; ?>",
-            img: "<?php echo $producte['img'] ?? './contenido/image.png'; ?>"
+            id: <?php echo json_encode($producte['id']); ?>,
+            nom: <?php echo json_encode($producte['nom']); ?>,
+            preu: <?php echo json_encode($producte['preu']); ?>,
+            img: <?php echo json_encode($producte['img'] ?? './contenido/image.png'); ?>
         };
         
-        Carrito.add(producto);
-        alert('Producte afegit al carret!');
-    }
-    </script>
-    <script src="./js/logicCarret.js?v=<?php echo time(); ?>"></script>
-    <script src="./js/bootstrap.bundle.min.js"></script>
-    <script src="./js/likes.js?v=<?php echo time(); ?>"></script>
-    <script src="./js/comentarios.js?v=<?php echo time(); ?>"></script>
-    <script>
-        // Tu código de configuración del usuario...
-        const currentProductId = <?php echo $prodId; ?>;
-        // ...
-        
-        function afegirProducteActual() {
-             // ... tu función existente ...
-             Carrito.add(producto); // AHORA SÍ FUNCIONARÁ
-             alert('Producte afegit al carret!');
+        if (typeof Carrito !== 'undefined') {
+            Carrito.add(producto);
+            alert('Producte afegit al carret!');
+        } else {
+            console.error("Error: logicCarret.js no s'ha carregat.");
         }
-    </script>
+    }
+</script>
+
+<script src="./js/bootstrap.bundle.min.js"></script>
+<script src="./js/logicCarret.js?v=<?php echo time(); ?>"></script>
+
+<script src="./js/likes.js?v=<?php echo time(); ?>"></script>
+<script src="./js/comentarios.js?v=<?php echo time(); ?>"></script>
+
 </body>
 </html>

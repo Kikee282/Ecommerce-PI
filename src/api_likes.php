@@ -1,71 +1,92 @@
 <?php
-session_start();
 header('Content-Type: application/json');
 
-$userId = $_SESSION['user_id'] ?? null;
-$productId = $_GET['productId'] ?? null;
+// Recibir datos del fetch (JS)
+$input = json_decode(file_get_contents('php://input'), true);
+$method = $_SERVER['REQUEST_METHOD'];
 
-// --- LEER LIKES (GET) ---
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (!$productId) exit(json_encode(['count' => 0, 'liked' => false]));
+// URL base del JSON Server (interno de Docker)
+$baseUrl = "http://jsonserver:3000/likes";
 
-    // 1. Pedir todos los likes de este producto al JSON Server
-    $url = "http://jsonserver:3000/likes?productId=" . $productId;
-    $likes = json_decode(file_get_contents($url), true);
+if ($method === 'POST') {
+    // 1. OBTENER DATOS
+    $userId = $input['user_id'] ?? null;
+    $prodId = $input['product_id'] ?? null;
 
-    // 2. Contar
-    $count = count($likes);
-
-    // 3. Ver si YO le he dado like
-    $userLiked = false;
-    if ($userId) {
-        foreach ($likes as $like) {
-            // Comparamos IDs (cuidado con strings/numeros)
-            if ((string)$like['userId'] === (string)$userId) {
-                $userLiked = true;
-                break;
-            }
-        }
-    }
-
-    echo json_encode(['count' => $count, 'liked' => $userLiked]);
-    exit;
-}
-
-// --- PONER/QUITAR LIKE (POST) ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!$userId) {
-        http_response_code(401);
-        echo json_encode(['error' => 'No logueado']);
+    if (!$userId || !$prodId) {
+        echo json_encode(['success' => false, 'message' => 'Falten dades']);
         exit;
     }
 
-    $input = json_decode(file_get_contents('php://input'), true);
-    $prodId = $input['productId'];
+    // 2. BUSCAR SI YA EXISTE EL LIKE
+    // Filtramos por usuario y producto
+    $queryUrl = "$baseUrl?user_id=$userId&product_id=$prodId";
+    $json = file_get_contents($queryUrl);
+    $existingLikes = json_decode($json, true);
 
-    // 1. Comprobar si ya existe el like
-    $checkUrl = "http://jsonserver:3000/likes?productId=$prodId&userId=$userId";
-    $existing = json_decode(file_get_contents($checkUrl), true);
-
-    if (count($existing) > 0) {
-        // YA EXISTE -> BORRAR (Dislike)
-        $likeId = $existing[0]['id'];
-        $ch = curl_init("http://jsonserver:3000/likes/$likeId");
+    if (count($existingLikes) > 0) {
+        // --- YA EXISTE -> ELIMINAR (UNLIKE) ---
+        $likeId = $existingLikes[0]['id'];
+        
+        $ch = curl_init("$baseUrl/$likeId");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_exec($ch);
         curl_close($ch);
-        echo json_encode(['status' => 'removed']);
+        
+        $liked = false;
     } else {
-        // NO EXISTE -> CREAR (Like)
-        $data = ['productId' => $prodId, 'userId' => $userId];
-        $ch = curl_init("http://jsonserver:3000/likes");
+        // --- NO EXISTE -> CREAR (LIKE) ---
+        $data = json_encode([
+            "user_id" => $userId,
+            "product_id" => $prodId,
+            "timestamp" => time()
+        ]);
+
+        $ch = curl_init($baseUrl);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_exec($ch);
         curl_close($ch);
-        echo json_encode(['status' => 'added']);
+        
+        $liked = true;
     }
+
+    // 3. RECONTAR TOTAL DE LIKES DEL PRODUCTO
+    $countJson = file_get_contents("$baseUrl?product_id=$prodId");
+    $totalLikes = count(json_decode($countJson, true));
+
+    echo json_encode([
+        'success' => true,
+        'liked' => $liked,
+        'count' => $totalLikes
+    ]);
+    exit;
+}
+
+// SI ES UN GET (Para comprobar estado inicial)
+if ($method === 'GET') {
+    $userId = $_GET['user_id'] ?? null;
+    $prodId = $_GET['product_id'] ?? null;
+
+    // Contar totales
+    $countJson = file_get_contents("$baseUrl?product_id=$prodId");
+    $totalLikes = count(json_decode($countJson, true));
+
+    // Ver si el usuario actual le dio like
+    $isLiked = false;
+    if ($userId) {
+        $checkJson = file_get_contents("$baseUrl?user_id=$userId&product_id=$prodId");
+        $checks = json_decode($checkJson, true);
+        if (count($checks) > 0) $isLiked = true;
+    }
+
+    echo json_encode([
+        'liked' => $isLiked,
+        'count' => $totalLikes
+    ]);
     exit;
 }
 ?>
